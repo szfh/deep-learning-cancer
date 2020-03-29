@@ -1,0 +1,5 @@
+.idea/
+.spyproject/
+
+# data
+/data/
