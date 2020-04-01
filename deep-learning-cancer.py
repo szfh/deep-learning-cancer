@@ -36,3 +36,13 @@ X[:, 3] = np.where(X[:, 3]==datetime.datetime(2019, 8, 6), '6-8', X[:, 3])
 X[:, 3] = np.where(X[:, 3]==datetime.datetime(2019, 11, 9), '9-11', X[:, 3])
 X[:, 3] = np.where(X[:, 3]==datetime.datetime(2014, 12, 1), '12-14', X[:, 3])
 print(np.unique(X[:, 3]))
+
+# function to get the mid point of a range of values
+def get_mid_point(n):
+# get the mid point of a range of values
+    n = n.split('-')
+    n = [int(i) for i in n]
+    n = np.mean(n)
+    n = np.ceil(n)
+    n = int(n)
+    return(n)
