@@ -4,9 +4,9 @@
 
 1. Import dataset :heavy_check_mark:
 1. Create `X` and `y` :heavy_check_mark:
-1. **Data preprocessing** :arrow_forward: :ballot_box_with_check:
-	1. Replace datetimes with strings :arrow_forward:
-	1. Find mid point of ranged values :arrow_forward:
+1. **Data preprocessing** :arrow_forward:
+	1. Replace datetimes with strings :heavy_check_mark:
+	1. Replace ranges with mid point :heavy_check_mark:
 	1. Encode catergorical variables :ballot_box_with_check:
 		1. Avoid the variable trap :question:
 	1. Handle missing values :ballot_box_with_check:
