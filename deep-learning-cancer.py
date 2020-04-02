@@ -65,3 +65,12 @@ def get_mid_point(n):
 for j in [0,2,3]:
     for i in range(len(X[:, j])):
         X[i, j] = get_mid_point(X[i, j])
+
+# take care of missing values
+from sklearn.impute import SimpleImputer
+missingvalues = SimpleImputer(missing_values='?',strategy='most_frequent')
+missingvalues = missingvalues.fit(X)
+X=missingvalues.transform(X)
+
+# for j in [1,4,7,8]:
+#     print(np.unique(X[:, j], return_counts=True))
