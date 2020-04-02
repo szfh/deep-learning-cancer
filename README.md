@@ -12,6 +12,8 @@
 	1. Handle missing values :heavy_check_mark:
 	1. Encode catergorical variables :arrow_forward:
 		1. Avoid the variable trap :question:
+	1. Feature scaling :x:
+	1. Split to `training` and `test` :x:
 
 ## Task
 
