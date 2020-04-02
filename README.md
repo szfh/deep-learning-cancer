@@ -1,5 +1,7 @@
 # Breast cancer deep learning :snake:
 
+### A project for the jHub Coding Scheme (JCS)
+
 ## Plan
 
 1. Import dataset :heavy_check_mark:
@@ -13,7 +15,10 @@
 
 ## Task
 
-### A project for the jHub Coding Scheme (JCS)
+1. Using Python, create the best performing neural networks algorithm you can to predict recurrence rates of breast cancer based upon the variables provided in the attached breast cancer spreadsheet.
+1. Document:
+	1. the settings you tested (and rationale for the strategy you took) along the way to optimal performance.
+	1. a screenshot of you using the trained algorithm to make a prediction on an unseen piece of data.
 
 ## Resources
 
