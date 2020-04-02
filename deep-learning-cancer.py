@@ -50,7 +50,8 @@ def datetime_to_string(s):
     return switch.get(s,s)
 
 for j in [2,3]:
-    for i in range(len(X[:, j])):
+    # for i in range(len(X[:, j])):
+    for i in range(X[:, j].shape[0]):
         X[i, j] = datetime_to_string(X[i, j])
 
 # function to get the mid point of a range of values
@@ -63,7 +64,7 @@ def get_mid_point(n):
     return(n)
 
 for j in [0,2,3]:
-    for i in range(len(X[:, j])):
+    for i in range(X[:, j].shape[0]):
         X[i, j] = get_mid_point(X[i, j])
 
 # take care of missing values
