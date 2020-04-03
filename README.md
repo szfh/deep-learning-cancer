@@ -6,16 +6,16 @@
 
 1. Import dataset :heavy_check_mark:
 1. Create `X` and `y` :heavy_check_mark:
-1. **Data preprocessing** :arrow_forward:
+1. **Data preprocessing** :heavy_check_mark:
 	1. Replace datetimes with strings :heavy_check_mark:
 	1. Replace ranges with mid point :heavy_check_mark:
 	1. Handle missing values :heavy_check_mark:
-	1. Encode catergorical variables :arrow_forward:
+	1. Encode catergorical variables :heavy_check_mark:
 		1. LabelEncoder :heavy_check_mark:
 		1. OneHotEncoder :heavy_check_mark:
-			1. Avoid the dummy variable trap :question:
-	1. Feature scaling :x:
-	1. Split to `training` and `test` :x:
+			1. Avoid the dummy variable trap :heavy_check_mark: :question:
+	1. Feature scaling :heavy_check_mark: :question:
+	1. Split to `training` and `test` set :heavy_check_mark:
 
 ## Task
 
