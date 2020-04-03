@@ -6,12 +6,28 @@
 
 1. Import dataset :heavy_check_mark:
 1. Create `X` and `y` :heavy_check_mark:
-1. **Data preprocessing** :arrow_forward:
+1. **Data preprocessing** :heavy_check_mark:
 	1. Replace datetimes with strings :heavy_check_mark:
 	1. Replace ranges with mid point :heavy_check_mark:
-	1. Encode catergorical variables :x:
-		1. Avoid the variable trap :question:
-	1. Handle missing values :x:
+	1. Handle missing values :heavy_check_mark:
+	1. Encode catergorical variables :heavy_check_mark:
+		1. LabelEncoder :heavy_check_mark:
+		1. OneHotEncoder :heavy_check_mark:
+			1. Avoid the dummy variable trap :heavy_check_mark: :question:
+	1. Feature scaling :heavy_check_mark: :question:
+	1. Split to `training` and `test` set :heavy_check_mark:
+1. **Compile the model** :large_orange_diamond:
+	1. Import Keras
+	1. Initialise the ANN
+	1. Add the input layer
+	1. Add the first hidden layer
+	1. Add the second hidden layer
+	1. Add the output layer
+	1. Compile the ANN
+	1. Fit the ANN to the training set
+1. **Make predictions** :x:
+	1. Predict the test results
+	1. Make the confusion matrix
 
 ## Task
 
