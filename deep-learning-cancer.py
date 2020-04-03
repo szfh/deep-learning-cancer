@@ -84,16 +84,15 @@ X[:, 4] = LabelEncoder().fit_transform(X[:, 4])
 X[:, 6] = LabelEncoder().fit_transform(X[:, 6])
 X[:, 8] = LabelEncoder().fit_transform(X[:, 8])
 
-ct1 = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
-X = np.array(ct1.fit_transform(X))
-ct9 = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remainder='passthrough')
-X = np.array(ct9.fit_transform(X))
-X = np.array(X, dtype=np.float)
+ct_men = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
+X = np.array(ct_men.fit_transform(X))
+ct_quad = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remainder='passthrough')
+X = np.array(ct_quad.fit_transform(X))
+X = np.array(X, dtype=np.int)
 y = LabelEncoder().fit_transform(y)
 
-# ct = ColumnTransformer([('encoder', OneHotEncoder(), [0])], remainder='passthrough')
-# X = np.array(ct.fit_transform(X), dtype=np.float)
-# y = LabelEncoder().fit_transform(y)
+# avoid the dummy variable trap
+X = np.delete(X,[0,5],axis=1)
 
 # #feature scaling
 # from sklearn.preprocessing import StandardScaler
