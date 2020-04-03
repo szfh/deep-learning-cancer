@@ -11,7 +11,9 @@
 	1. Replace ranges with mid point :heavy_check_mark:
 	1. Handle missing values :heavy_check_mark:
 	1. Encode catergorical variables :arrow_forward:
-		1. Avoid the variable trap :question:
+		1. LabelEncoder :heavy_check_mark:
+		1. OneHotEncoder :heavy_check_mark:
+			1. Avoid the dummy variable trap :question:
 	1. Feature scaling :x:
 	1. Split to `training` and `test` :x:
 
