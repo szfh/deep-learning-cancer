@@ -75,3 +75,30 @@ X=missingvalues.transform(X)
 
 # for j in [1,4,7,8]:
 #     print(np.unique(X[:, j], return_counts=True))
+
+# encode categorical data
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+X[:, 4] = LabelEncoder().fit_transform(X[:, 4])
+X[:, 6] = LabelEncoder().fit_transform(X[:, 6])
+X[:, 8] = LabelEncoder().fit_transform(X[:, 8])
+
+ct1 = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
+X = np.array(ct1.fit_transform(X))
+ct9 = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remainder='passthrough')
+X = np.array(ct9.fit_transform(X))
+X = np.array(X, dtype=np.float)
+y = LabelEncoder().fit_transform(y)
+
+# ct = ColumnTransformer([('encoder', OneHotEncoder(), [0])], remainder='passthrough')
+# X = np.array(ct.fit_transform(X), dtype=np.float)
+# y = LabelEncoder().fit_transform(y)
+
+# #feature scaling
+# from sklearn.preprocessing import StandardScaler
+# sc_X = StandardScaler()
+# X_train = sc_X.fit_transform(X_train)
+# X_test = sc_X.transform(X_test)
+# sc_y = StandardScaler()
+# y_train = sc_y.fit_transform(y_train.reshape(-1,1))
