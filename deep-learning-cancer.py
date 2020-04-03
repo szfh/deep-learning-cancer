@@ -94,6 +94,10 @@ y = LabelEncoder().fit_transform(y)
 # avoid the dummy variable trap
 X = np.delete(X,[0,5],axis=1)
 
+# split training and test set
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+
 # #feature scaling
 # from sklearn.preprocessing import StandardScaler
 # sc_X = StandardScaler()
