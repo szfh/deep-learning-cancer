@@ -29,7 +29,7 @@
 	1. Predict the test results :heavy_check_mark:
 	1. Make the confusion matrix :heavy_check_mark:
 1. Improve model :large_orange_diamond:
-1. Comments and notes :x:
+1. Comments and notes :large_orange_diamond:
 
 ## Task
 
