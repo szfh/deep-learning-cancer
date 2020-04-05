@@ -113,3 +113,8 @@ from keras.layers import Dense
 
 # initialise the ann
 classifier = Sequential()
+
+# add the input layer and the first hidden layer
+classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu', input_dim = 13))
+# units = average of nodes in input+output layer ((13+1)/2)
+# input_dim - compulsory for this one
