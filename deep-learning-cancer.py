@@ -144,7 +144,7 @@ Adding a third layer improves prediction of the test set.
 However it increases the risk of overfitting.
 Adding a fourth layer does not improve performance any further.
 """
-# classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
@@ -154,10 +154,12 @@ classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = [
 
 """
 Fit the ANN to the training set
-Batch size =
 Epochs =
+Steps =
 """
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 500)
+n_epochs = 500
+n_steps = 10
+classifier.fit(X_train, y_train, epochs = n_epochs, steps_per_epoch = n_steps)
 
 # =============================================================================
 # Part 3 - Make the predictions and evaluating the model
@@ -171,3 +173,11 @@ y_pred = (y_pred_raw > 0.5)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 print ('Confusion matrix:\n', cm)
+
+import matplotlib.pyplot as plt
+plt.scatter(range(y_pred.shape[0]),y_pred,marker='o',color='red',edgecolors='black',alpha=0.8)
+plt.scatter(range(y_test.shape[0]),y_test,marker='D',color='green',edgecolors='black',alpha=0.6)
+plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(n_epochs, n_steps))
+plt.ylabel('Probability of recurrence event (%)')
+plt.text(1,0.5,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=14)
+plt.show()
