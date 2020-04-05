@@ -25,9 +25,11 @@
 	1. Add the output layer :heavy_check_mark:
 	1. Compile the ANN :heavy_check_mark:
 	1. Fit the ANN to the training set :heavy_check_mark:
-1. **Make predictions** :large_orange_diamond:
-	1. Predict the test results :large_orange_diamond: 
-	1. Make the confusion matrix :large_orange_diamond: 
+1. **Make predictions** :heavy_check_mark:
+	1. Predict the test results :heavy_check_mark:
+	1. Make the confusion matrix :heavy_check_mark:
+1. Improve model :large_orange_diamond:
+1. Comments and notes :x:
 
 ## Task
 
