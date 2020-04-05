@@ -156,9 +156,9 @@ Fit the ANN to the training set
 Epochs =
 Steps =
 """
-n_epochs = 500
-n_steps = 10
-classifier.fit(X_train, y_train, epochs = n_epochs, steps_per_epoch = n_steps)
+epochs = 500
+batch_size = 10
+classifier.fit(X_train, y_train, epochs = epochs, batch_size=batch_size)
 
 # =============================================================================
 # Part 3 - Make the predictions and evaluating the model
@@ -189,9 +189,9 @@ plt.imshow(cm, interpolation='nearest', cmap='Blues')
 for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
     plt.text(j, i, cm[i, j],
              color='white' if cm[i, j] >= cm.max()/2 else 'black')
-plt.title('Confusion matrix\nAccuracy = %0.1f%%' %(100*accuracy))
+plt.title('Confusion matrix\nAccuracy = %0.1f%%    Epochs = %d' %(100*accuracy,epochs))
 plt.xticks([0,1],['No recurrence','Recurrence'])
 plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
-plt.xlabel('Predicted label')
-plt.ylabel('True label')
+plt.xlabel('Prediction')
+plt.ylabel('Actual')
 plt.show()
