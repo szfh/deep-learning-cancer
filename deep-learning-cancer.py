@@ -11,6 +11,7 @@ date: 2020-03-29
 import numpy as np
 import pandas as pd
 import datetime as datetime
+import itertools
 
 """import dataset"""
 dataset = pd.read_excel('breast-cancer.xls')
@@ -120,7 +121,7 @@ y_train = sc_y.fit_transform(y_train.reshape(-1,1))
 # Part 2 - Artificial Neural Network
 # =============================================================================
 
-import keras
+# import keras
 from keras.models import Sequential
 from keras.layers import Dense
 
@@ -143,6 +144,11 @@ Adding a third layer improves prediction of the test set.
 However it increases the risk of overfitting.
 Adding a fourth layer does not improve performance any further.
 """
+"""
+https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
+How do we know the number of layers and their types?
+This is a very hard question. There are heuristics that we can use and often the best network structure is found through a process of trial and error experimentation (I explain more about this here). Generally, you need a network large enough to capture the structure of the problem.
+"""
 classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
@@ -156,7 +162,7 @@ Fit the ANN to the training set
 Epochs =
 Steps =
 """
-epochs = 500
+epochs = 1000
 batch_size = 10
 classifier.fit(X_train, y_train, epochs = epochs, batch_size=batch_size)
 
@@ -171,7 +177,7 @@ y_pred = (y_pred_raw > 0.5)
 """Make the confusion matrix"""
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
-accuracy = np.trace(cm) / np.sum(cm)
+accuracy = classifier.evaluate(X, y)[1]
 
 """Plot"""
 import matplotlib.pyplot as plt
@@ -180,7 +186,7 @@ import itertools
 # plt.scatter(range(y_test.shape[0]),y_test,marker='o',color='green',edgecolors='black',alpha=1)
 # plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(n_epochs, n_steps))
 # plt.ylabel('Probability of recurrence event (%)')
-# plt.text(1,0.5,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=14)
+# plt.text(1,0.4,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=20)
 # plt.tight_layout()
 # plt.show()
 
