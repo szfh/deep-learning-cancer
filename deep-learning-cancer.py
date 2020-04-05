@@ -121,3 +121,6 @@ classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 're
 
 # add the second hidden layer
 classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+
+# add the output layer
+classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
