@@ -16,18 +16,18 @@
 			1. Avoid the dummy variable trap :heavy_check_mark: :question:
 	1. Feature scaling :heavy_check_mark: :question:
 	1. Split to `training` and `test` set :heavy_check_mark:
-1. **Compile the model** :large_orange_diamond:
-	1. Import Keras
-	1. Initialise the ANN
-	1. Add the input layer
-	1. Add the first hidden layer
-	1. Add the second hidden layer
-	1. Add the output layer
-	1. Compile the ANN
-	1. Fit the ANN to the training set
-1. **Make predictions** :x:
-	1. Predict the test results
-	1. Make the confusion matrix
+1. **Compile the model** :heavy_check_mark:
+	1. Import Keras :heavy_check_mark:
+	1. Initialise the ANN :heavy_check_mark:
+	1. Add the input layer :heavy_check_mark:
+	1. Add the first hidden layer :heavy_check_mark:
+	1. Add the second hidden layer :heavy_check_mark:
+	1. Add the output layer :heavy_check_mark:
+	1. Compile the ANN :heavy_check_mark:
+	1. Fit the ANN to the training set :heavy_check_mark:
+1. **Make predictions** :large_orange_diamond:
+	1. Predict the test results :large_orange_diamond: 
+	1. Make the confusion matrix :large_orange_diamond: 
 
 ## Task
 
