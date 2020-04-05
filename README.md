@@ -13,8 +13,8 @@
 	1. Encode catergorical variables :heavy_check_mark:
 		1. LabelEncoder :heavy_check_mark:
 		1. OneHotEncoder :heavy_check_mark:
-			1. Avoid the dummy variable trap :heavy_check_mark: :question:
-	1. Feature scaling :heavy_check_mark: :question:
+			1. Avoid the dummy variable trap :heavy_check_mark:
+	1. Feature scaling :heavy_check_mark:
 	1. Split to `training` and `test` set :heavy_check_mark:
 1. **Compile the model** :heavy_check_mark:
 	1. Import Keras :heavy_check_mark:
