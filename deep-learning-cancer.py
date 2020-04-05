@@ -124,3 +124,6 @@ classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 're
 
 # add the output layer
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
+
+# compile the ann
+classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
