@@ -138,6 +138,14 @@ classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 're
 """Add the second hidden layer"""
 classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
 
+"""
+Add the third hidden layer.
+Adding a third layer improves prediction of the test set.
+However it increases the risk of overfitting.
+Adding a fourth layer makes no overall improvement.
+"""
+classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+
 """Add the output layer"""
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
 
@@ -149,7 +157,7 @@ Fit the ANN to the training set
 Batch size =
 Epochs =
 """
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
+classifier.fit(X_train, y_train, batch_size = 10, epochs = 500)
 
 # =============================================================================
 # Part 3 - Make the predictions and evaluating the model
