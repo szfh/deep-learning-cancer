@@ -127,3 +127,6 @@ classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'si
 
 # compile the ann
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+
+# fit the ann to the training set
+classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
