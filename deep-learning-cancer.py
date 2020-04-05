@@ -110,3 +110,6 @@ y_train = sc_y.fit_transform(y_train.reshape(-1,1))
 import keras
 from keras.models import Sequential
 from keras.layers import Dense
+
+# initialise the ann
+classifier = Sequential()
