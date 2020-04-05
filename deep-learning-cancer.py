@@ -130,8 +130,8 @@ classifier = Sequential()
 
 """
 Add the input layer and the first hidden layer
-Units = average of nodes in input and output layer ((13+1)/2)
-Kernel initialiser =
+units = average of nodes in input and output layer ((13+1)/2)
+kernel_initializer =
 """
 classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu', input_dim = 13))
 
@@ -142,9 +142,9 @@ classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 're
 Add the third hidden layer.
 Adding a third layer improves prediction of the test set.
 However it increases the risk of overfitting.
-Adding a fourth layer makes no overall improvement.
+Adding a fourth layer does not improve performance any further.
 """
-classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+# classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
@@ -164,8 +164,8 @@ classifier.fit(X_train, y_train, batch_size = 10, epochs = 500)
 # =============================================================================
 
 """Predict the test set results"""
-y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
+y_pred_raw = classifier.predict(X_test) # to evaluate the model
+y_pred = (y_pred_raw > 0.5)
 
 """Make the confusion matrix"""
 from sklearn.metrics import confusion_matrix
