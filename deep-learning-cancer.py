@@ -127,7 +127,6 @@ from keras.layers import Dense
 """Initialise the ANN"""
 classifier = Sequential()
 
-
 """
 Add the input layer and the first hidden layer
 units = average of nodes in input and output layer ((13+1)/2)
@@ -172,12 +171,27 @@ y_pred = (y_pred_raw > 0.5)
 """Make the confusion matrix"""
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
-print ('Confusion matrix:\n', cm)
+accuracy = np.trace(cm) / np.sum(cm)
 
+"""Plot"""
 import matplotlib.pyplot as plt
-plt.scatter(range(y_pred.shape[0]),y_pred,marker='o',color='red',edgecolors='black',alpha=0.8)
-plt.scatter(range(y_test.shape[0]),y_test,marker='D',color='green',edgecolors='black',alpha=0.6)
-plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(n_epochs, n_steps))
-plt.ylabel('Probability of recurrence event (%)')
-plt.text(1,0.5,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=14)
+import itertools
+# plt.scatter(range(y_pred.shape[0]),y_pred,marker='o',color='red',edgecolors='black',alpha=1)
+# plt.scatter(range(y_test.shape[0]),y_test,marker='o',color='green',edgecolors='black',alpha=1)
+# plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(n_epochs, n_steps))
+# plt.ylabel('Probability of recurrence event (%)')
+# plt.text(1,0.5,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=14)
+# plt.tight_layout()
+# plt.show()
+
+plt.figure(figsize=(5, 5))
+plt.imshow(cm, interpolation='nearest', cmap='Blues')
+for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+    plt.text(j, i, cm[i, j],
+             color='white' if cm[i, j] >= cm.max()/2 else 'black')
+plt.title('Confusion matrix\nAccuracy = %0.1f%%' %(100*accuracy))
+plt.xticks([0,1],['No recurrence','Recurrence'])
+plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
+plt.xlabel('Predicted label')
+plt.ylabel('True label')
 plt.show()
