@@ -122,8 +122,8 @@ y_train = sc_y.fit_transform(y_train.reshape(-1,1))
 # =============================================================================
 
 # import keras
-from keras.models import Sequential
-from keras.layers import Dense
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dense
 
 """Initialise the ANN"""
 classifier = Sequential()
@@ -149,7 +149,7 @@ https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
 How do we know the number of layers and their types?
 This is a very hard question. There are heuristics that we can use and often the best network structure is found through a process of trial and error experimentation (I explain more about this here). Generally, you need a network large enough to capture the structure of the problem.
 """
-classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
