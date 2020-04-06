@@ -2,21 +2,26 @@
 """
 date: 2020-03-29
 """
-
 # =============================================================================
-# Part 1 - Data Preprocessing
+# Part 1- Import Data
 # =============================================================================
 
 """import libraries"""
 import numpy as np
 import pandas as pd
-import datetime as datetime
-import itertools
 
 """import dataset"""
 # from google.colab import files # in colab
 # uploaded = files.upload()
 dataset = pd.read_excel('breast-cancer.xls')
+
+# =============================================================================
+# Part 2 - Data Preprocessing
+# =============================================================================
+
+"""import libraries"""
+import datetime as datetime
+import itertools
 
 """create arrays of independent and dependent variables"""
 X = dataset.iloc[:, :-1].values
@@ -120,7 +125,7 @@ sc_y = StandardScaler()
 y_train = sc_y.fit_transform(y_train.reshape(-1,1))
 
 # =============================================================================
-# Part 2 - Artificial Neural Network
+# Part 3 - Artificial Neural Network
 # =============================================================================
 
 # import keras
@@ -169,7 +174,7 @@ batch_size = 10
 classifier.fit(X_train, y_train, epochs = epochs, batch_size=batch_size)
 
 # =============================================================================
-# Part 3 - Make the predictions and evaluating the model
+# Part 4 - Make the predictions and evaluating the model
 # =============================================================================
 
 """Predict the test set results"""
@@ -186,10 +191,9 @@ import matplotlib.pyplot as plt
 import itertools
 # plt.scatter(range(y_pred.shape[0]),y_pred,marker='o',color='red',edgecolors='black',alpha=1)
 # plt.scatter(range(y_test.shape[0]),y_test,marker='o',color='green',edgecolors='black',alpha=1)
-# plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(n_epochs, n_steps))
+# plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(epochs, steps))
 # plt.ylabel('Probability of recurrence event (%)')
 # plt.text(1,0.4,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=20)
-# plt.tight_layout()
 # plt.show()
 
 plt.figure(figsize=(5, 5))
