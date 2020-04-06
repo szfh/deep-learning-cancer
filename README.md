@@ -5,8 +5,8 @@
 ## Plan
 
 1. Import dataset :heavy_check_mark:
-1. Create `X` and `y` :heavy_check_mark:
 1. **Data preprocessing** :heavy_check_mark:
+	1. Create `X` and `y` :heavy_check_mark:
 	1. Replace datetimes with strings :heavy_check_mark:
 	1. Replace ranges with mid point :heavy_check_mark:
 	1. Handle missing values :heavy_check_mark:
@@ -30,6 +30,8 @@
 	1. Make the confusion matrix :heavy_check_mark:
 1. Improve model :large_orange_diamond:
 1. Comments and notes :large_orange_diamond:
+1. Check and simplify code
+1. Run on Colab
 
 ## Task
 
