@@ -14,6 +14,8 @@ import datetime as datetime
 import itertools
 
 """import dataset"""
+# from google.colab import files # in colab
+# uploaded = files.upload()
 dataset = pd.read_excel('breast-cancer.xls')
 
 """create arrays of independent and dependent variables"""
