@@ -78,12 +78,10 @@ X = missingvalues.transform(X)
 """Encode categorical data"""
 from sklearn.compose import ColumnTransformer
 
-"""2 categories"""
 from sklearn.preprocessing import LabelEncoder
 for j in [4,6,8]: # columns with two categories
     X[:, j] = LabelEncoder().fit_transform(X[:, j])
 
-""">2 categories"""
 from sklearn.preprocessing import OneHotEncoder
 ct_men = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
 X = np.array(ct_men.fit_transform(X))
