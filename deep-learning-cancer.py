@@ -44,9 +44,8 @@ def datetime_to_string(s):
         }
     return switch.get(s,s)
 
-for j in [2,3]: # columns with datetimes
-    for i in range(X[:, j].shape[0]): # length of array (axis=0)
-        X[i, j] = datetime_to_string(X[i, j])
+for i, j in itertools.product(range(X.shape[0]), [2,3]):
+    X[i, j] = datetime_to_string(X[i, j])
 
 """
 Data is given as a range in string format.
@@ -63,9 +62,8 @@ def get_mid_point(n):
     n = int(n)
     return(n)
 
-for j in [0,2,3]: # columns with ranges
-    for i in range(X[:, j].shape[0]): # length of array (axis=0)
-        X[i, j] = get_mid_point(X[i, j])
+for i, j in itertools.product(range(X.shape[0]), [0,2,3]):
+    X[i, j] = get_mid_point(X[i, j])
 
 """
 There are missing values encoded as '?'
