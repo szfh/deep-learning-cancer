@@ -6,6 +6,9 @@ date: 2020-03-29
 # Part 1- Import Data
 # =============================================================================
 
+"""reset namespace"""
+%reset -f
+
 """import libraries"""
 import numpy as np
 import pandas as pd
@@ -155,7 +158,7 @@ This is a very hard question. There are heuristics that we can use and often the
 """
 #classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
 #classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
-classifier.add(Dense(units = 3, kernel_initializer = 'uniform', activation = 'relu'))
+#classifier.add(Dense(units = 3, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
