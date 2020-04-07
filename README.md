@@ -30,8 +30,8 @@
 	1. Make the confusion matrix :heavy_check_mark:
 1. Improve model :large_orange_diamond:
 1. Comments and notes :large_orange_diamond:
-1. Check and simplify code
-1. Run on Colab
+1. Check and simplify code :large_orange_diamond:
+1. Run on Colab :large_orange_diamond:
 
 ## Task
 
