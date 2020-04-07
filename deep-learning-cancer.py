@@ -123,6 +123,7 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 sc_y = StandardScaler()
 y_train = sc_y.fit_transform(y_train.reshape(-1,1))
+# y_test = sc_y.transform(y_test)
 
 # =============================================================================
 # Part 3 - Artificial Neural Network
@@ -140,10 +141,10 @@ Add the input layer and the first hidden layer
 units = average of nodes in input and output layer ((13+1)/2)
 kernel_initializer =
 """
-classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu', input_dim = 13))
+classifier.add(Dense(7, kernel_initializer='uniform', activation='relu', input_dim=13))
 
 """Add the second hidden layer"""
-classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units=7, kernel_initializer='uniform', activation='relu'))
 
 """
 Add the third hidden layer.
@@ -156,7 +157,9 @@ https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
 How do we know the number of layers and their types?
 This is a very hard question. There are heuristics that we can use and often the best network structure is found through a process of trial and error experimentation (I explain more about this here). Generally, you need a network large enough to capture the structure of the problem.
 """
-classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
+#classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
+#classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units = 3, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
@@ -166,12 +169,12 @@ classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = [
 
 """
 Fit the ANN to the training set
-Epochs =
-Steps =
+Epochs: number of passes through the training set. Needs to be high enough for convergence.
+Batch size: number of samples before weights are updated. 10 is small enough.
 """
 epochs = 1000
 batch_size = 10
-classifier.fit(X_train, y_train, epochs = epochs, batch_size=batch_size)
+classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size,verbose=1)
 
 # =============================================================================
 # Part 4 - Make the predictions and evaluating the model
@@ -201,7 +204,7 @@ plt.imshow(cm, interpolation='nearest', cmap='Blues')
 for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
     plt.text(j, i, cm[i, j],
              color='white' if cm[i, j] >= cm.max()/2 else 'black')
-plt.title('Confusion matrix\nAccuracy = %0.1f%%    Epochs = %d' %(100*accuracy,epochs))
+plt.title('Confusion matrix\nAccuracy = %0.2f%%    Epochs = %d' %(100*accuracy,epochs))
 plt.xticks([0,1],['No recurrence','Recurrence'])
 plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
 plt.xlabel('Prediction')
