@@ -5,16 +5,16 @@
 ## Plan
 
 1. Import dataset :heavy_check_mark:
-1. Create `X` and `y` :heavy_check_mark:
 1. **Data preprocessing** :heavy_check_mark:
+	1. Create `X` and `y` :heavy_check_mark:
 	1. Replace datetimes with strings :heavy_check_mark:
 	1. Replace ranges with mid point :heavy_check_mark:
 	1. Handle missing values :heavy_check_mark:
 	1. Encode catergorical variables :heavy_check_mark:
 		1. LabelEncoder :heavy_check_mark:
 		1. OneHotEncoder :heavy_check_mark:
-			1. Avoid the dummy variable trap :heavy_check_mark: :question:
-	1. Feature scaling :heavy_check_mark: :question:
+			1. Avoid the dummy variable trap :heavy_check_mark:
+	1. Feature scaling :heavy_check_mark:
 	1. Split to `training` and `test` set :heavy_check_mark:
 1. **Compile the model** :heavy_check_mark:
 	1. Import Keras :heavy_check_mark:
@@ -30,6 +30,8 @@
 	1. Make the confusion matrix :heavy_check_mark:
 1. Improve model :large_orange_diamond:
 1. Comments and notes :large_orange_diamond:
+1. Check and simplify code :large_orange_diamond:
+1. Run on Colab :large_orange_diamond:
 
 ## Task
 
