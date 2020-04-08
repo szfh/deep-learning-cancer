@@ -82,8 +82,15 @@ X = missingvalues.transform(X)
 from sklearn.compose import ColumnTransformer
 
 from sklearn.preprocessing import LabelEncoder
-for j in [4,6,8]: # columns with two categories
-    X[:, j] = LabelEncoder().fit_transform(X[:, j])
+# for j in [4,6,8]: # columns with two categories
+#     X[:, j] = np.array(LabelEncoder().fit_transform(X[:, j]))
+
+label_encoder1 = LabelEncoder()
+label_encoder2 = LabelEncoder()
+label_encoder3 = LabelEncoder()
+X[:, 4] = np.array(label_encoder1.fit_transform(X[:, 4]))
+X[:, 6] = np.array(label_encoder2.fit_transform(X[:, 6]))
+X[:, 8] = np.array(label_encoder3.fit_transform(X[:, 8]))
 
 from sklearn.preprocessing import OneHotEncoder
 ct_men = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
@@ -140,10 +147,10 @@ Add the input layer and the first hidden layer
 units = average of nodes in input and output layer ((13+1)/2)
 kernel_initializer =
 """
-classifier.add(Dense(7, kernel_initializer='uniform', activation='relu', input_dim=13))
+classifier.add(Dense(20, kernel_initializer='uniform', activation='relu', input_dim=13))
 
 """Add the second hidden layer"""
-classifier.add(Dense(units=7, kernel_initializer='uniform', activation='relu'))
+classifier.add(Dense(units=10, kernel_initializer='uniform', activation='relu'))
 
 """
 Add the third hidden layer.
@@ -157,7 +164,7 @@ How do we know the number of layers and their types?
 This is a very hard question. There are heuristics that we can use and often the best network structure is found through a process of trial and error experimentation (I explain more about this here). Generally, you need a network large enough to capture the structure of the problem.
 """
 #classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
-#classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
 #classifier.add(Dense(units = 3, kernel_initializer = 'uniform', activation = 'relu'))
 
 """Add the output layer"""
@@ -171,7 +178,7 @@ Fit the ANN to the training set
 Epochs: number of passes through the training set. Needs to be high enough for convergence.
 Batch size: number of samples before weights are updated. 10 is small enough.
 """
-epochs = 1000
+epochs = 500
 batch_size = 10
 classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size,verbose=1)
 
