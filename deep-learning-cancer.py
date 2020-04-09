@@ -196,7 +196,7 @@ y_pred = (y_pred > 0.5)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 #loss, accuracy = classifier.evaluate(X, y)
-accuracy = (cm[0,0]+cm[1,1])/(cm[0,0]+cm[0,1]+cm[1,0]+cm[1,1])
+accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
 
 """Plot"""
 import matplotlib.pyplot as plt
@@ -210,8 +210,7 @@ import matplotlib.pyplot as plt
 #plt.figure(figsize=(5, 5))
 plt.imshow(cm, interpolation='nearest', cmap='Blues')
 for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-    plt.text(j, i, cm[i, j],
-             color='white' if cm[i, j] >= cm.max()/2 else 'black')
+    plt.text(j, i, cm[i, j], color='white' if cm[i, j] >= cm.max()/2 else 'black')
 plt.title('Confusion matrix\nAccuracy = %0.2f%%' %(100*accuracy))
 plt.xticks([0,1],['No recurrence','Recurrence'])
 plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
