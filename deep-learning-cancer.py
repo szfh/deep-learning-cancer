@@ -117,7 +117,7 @@ n = 286
 Strategy: 80% training, 20% test to balance good training data with verification.
 """
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 """
 Feature scaling
@@ -127,15 +127,14 @@ from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
-sc_y = StandardScaler()
-y_train = sc_y.fit_transform(y_train.reshape(-1,1))
-# y_test = sc_y.transform(y_test)
+# sc_y = StandardScaler()
+# y_train = sc_y.fit_transform(y_train.reshape(-1,1))
 
 # =============================================================================
 # Part 3 - Artificial Neural Network
 # =============================================================================
 
-# import keras
+"""Import libraries"""
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
 
@@ -144,10 +143,10 @@ classifier = Sequential()
 
 """
 Add the input layer and the first hidden layer
-units = average of nodes in input and output layer ((13+1)/2)
-kernel_initializer =
+kernel_initializer = uniform, randomly initialise the weights close to 0
+units = number of nodes
 """
-classifier.add(Dense(20, kernel_initializer='uniform', activation='relu', input_dim=13))
+classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=13))
 
 """Add the second hidden layer"""
 classifier.add(Dense(units=10, kernel_initializer='uniform', activation='relu'))
@@ -163,44 +162,47 @@ https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
 How do we know the number of layers and their types?
 This is a very hard question. There are heuristics that we can use and often the best network structure is found through a process of trial and error experimentation (I explain more about this here). Generally, you need a network large enough to capture the structure of the problem.
 """
-#classifier.add(Dense(units = 7, kernel_initializer = 'uniform', activation = 'relu'))
-classifier.add(Dense(units = 5, kernel_initializer = 'uniform', activation = 'relu'))
-#classifier.add(Dense(units = 3, kernel_initializer = 'uniform', activation = 'relu'))
+#classifier.add(Dense(units=7, kernel_initializer='uniform', activation='relu'))
+classifier.add(Dense(units=5, kernel_initializer='uniform', activation='relu'))
+#classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
 
-"""Add the output layer"""
-classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
+"""
+Add the output layer
+Sigmoid activation function to get probability as output
+"""
+classifier.add(Dense(units=1, kernel_initializer='uniform', activation='sigmoid'))
 
 """Compile the ANN"""
-classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 """
 Fit the ANN to the training set
 Epochs: number of passes through the training set. Needs to be high enough for convergence.
 Batch size: number of samples before weights are updated. 10 is small enough.
 """
-epochs = 500
+epochs = 100
 batch_size = 10
-classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size,verbose=1)
+classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
 
 # =============================================================================
 # Part 4 - Make the predictions and evaluating the model
 # =============================================================================
 
 """Predict the test set results"""
-y_pred_raw = classifier.predict(X_test) # to evaluate the model
-y_pred = (y_pred_raw > 0.5)
+y_pred = classifier.predict(X_test)
+y_pred = (y_pred > 0.5)
 
 """Make the confusion matrix"""
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
-accuracy = classifier.evaluate(X, y)[1]
+#loss, accuracy = classifier.evaluate(X, y)
+accuracy = (cm[0,0]+cm[1,1])/(cm[0,0]+cm[0,1]+cm[1,0]+cm[1,1])
 
 """Plot"""
 import matplotlib.pyplot as plt
-import itertools
 # plt.scatter(range(y_pred.shape[0]),y_pred,marker='o',color='red',edgecolors='black',alpha=1)
 # plt.scatter(range(y_test.shape[0]),y_test,marker='o',color='green',edgecolors='black',alpha=1)
-# plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Steps = %d' %(epochs, steps))
+# plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Batch size = %d' %(epochs, batch_size))
 # plt.ylabel('Probability of recurrence event (%)')
 # plt.text(1,0.4,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=20)
 # plt.show()
