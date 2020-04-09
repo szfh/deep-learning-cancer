@@ -9,11 +9,11 @@ date: 2020-03-29
 """reset namespace"""
 %reset -f
 
-"""import libraries"""
+"""Import libraries"""
 import numpy as np
 import pandas as pd
 
-"""import dataset"""
+"""Import dataset"""
 # from google.colab import files # in colab
 # uploaded = files.upload()
 dataset = pd.read_excel('breast-cancer.xls')
@@ -22,11 +22,11 @@ dataset = pd.read_excel('breast-cancer.xls')
 # Part 2 - Data Preprocessing
 # =============================================================================
 
-"""import libraries"""
+"""Import libraries"""
 import datetime as datetime
 import itertools
 
-"""create arrays of independent and dependent variables"""
+"""Create arrays of independent and dependent variables"""
 X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, -1].values
 
@@ -36,7 +36,7 @@ eg. '3-5' -> 3 May 19.
 This loop changes datetimes to the correct range.
 """
 def datetime_to_string(s):
-    """function to replace datetimes with strings"""
+    """Function to replace datetimes with strings"""
     switch={
         datetime.datetime(2019, 5, 3):'3-5',
         datetime.datetime(2019, 9, 5):'5-9',
@@ -52,12 +52,11 @@ for i, j in itertools.product(range(X.shape[0]), [2,3]):
 
 """
 Data is given as a range in string format.
-eg. '40-49'
-Strategy: replace with the midpoint of the two values (rounded up).
+This loop replaces with the midpoint of the two values (rounded up).
 eg. '40-49' -> 45
 """
 def get_mid_point(n):
-    """function to get the mid point of a range of values"""
+    """Function to get the mid point of a range of values"""
     n = n.split('-')
     n = [int(i) for i in n]
     n = np.mean(n)
@@ -82,57 +81,68 @@ X = missingvalues.transform(X)
 from sklearn.compose import ColumnTransformer
 
 from sklearn.preprocessing import LabelEncoder
-# for j in [4,6,8]: # columns with two categories
-#     X[:, j] = np.array(LabelEncoder().fit_transform(X[:, j]))
-
-label_encoder1 = LabelEncoder()
-label_encoder2 = LabelEncoder()
-label_encoder3 = LabelEncoder()
-X[:, 4] = np.array(label_encoder1.fit_transform(X[:, 4]))
-X[:, 6] = np.array(label_encoder2.fit_transform(X[:, 6]))
-X[:, 8] = np.array(label_encoder3.fit_transform(X[:, 8]))
+for j in [4,6,8]:
+    X[:, j] = np.array(LabelEncoder().fit_transform(X[:, j]))
 
 from sklearn.preprocessing import OneHotEncoder
-ct_men = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
-X = np.array(ct_men.fit_transform(X))
-ct_quad = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remainder='passthrough')
-X = np.array(ct_quad.fit_transform(X))
-
-"""Change type"""
-X = np.array(X, dtype=np.int64)
+one_hot_encoder1 = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
+X = np.array(one_hot_encoder1.fit_transform(X))
+one_hot_encoder2 = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remainder='passthrough')
+X = np.array(one_hot_encoder2.fit_transform(X))
 
 """Encode dependent variable"""
 y = LabelEncoder().fit_transform(y)
 
+"""Change type"""
+X = np.array(X, dtype=np.int64)
+y = np.array(y, dtype=np.int64)
+
 """
 Avoid the dummy variable trap.
 Categories created by OneHotEncoder are multicollinear.
-One column is dropped from each.
+Strategy: one column is dropped from each.
 """
-X = np.delete(X,[0,5],axis=1)
+X = np.delete(X, [0,5],axis=1)
 
 """
 Create training and test set.
 n = 286
-Strategy: 80% training, 20% test to balance good training data with verification.
+Strategy:
+80% training, 20% test to balance training data with verification.
+For more test data this can be increased to ~0.5 exchanging a minor loss of accuracy (~10%).
 """
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 """
-Feature scaling
-Variables have mean = 0 and variance = 1
+Feature scaling.
+Variables have mean = 0 and variance = 1.
 """
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
-# sc_y = StandardScaler()
-# y_train = sc_y.fit_transform(y_train.reshape(-1,1))
 
 # =============================================================================
 # Part 3 - Artificial Neural Network
 # =============================================================================
+
+"""
+Approach:
+We need to build a model to achieve good accuracy while minimising overfitting.
+There is no "standard" build method, the model must have enough nodes to capture the dataset complexity.
+A trial and error approach from a simple starting point is usually effective.
+
+Tests:
+Initial test of 2 hidden layers both with 7 nodes (mean of input and output = ((13+1)/2))
+Very large numbers (>50) or too many hidden layers (>6) can cause overfitting.
+Too small (<5 in the first/second layer) means relevant variables/weights are not always captured.
+
+Strategy:
+Use 3 hidden layers, first with 20 nodes (above) to capture the data complexity (13 inputs)
+Then scaling down to 1 node in the output (20-8-3-1).
+This gives regular good predictions for this dataset.
+"""
 
 """Import libraries"""
 from tensorflow.python.keras.models import Sequential
@@ -142,45 +152,39 @@ from tensorflow.python.keras.layers import Dense
 classifier = Sequential()
 
 """
-Add the input layer and the first hidden layer
-kernel_initializer = uniform, randomly initialise the weights close to 0
-units = number of nodes
+Add the layers to the model.
+kernel_initializer = 'uniform', randomly initialise the weights close to 0.
+activation = 'relu' for hidden layers, non-zero output to positive input.
+activation = 'sigmoid' for output layer to get probability.
 """
 classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=13))
-
-"""Add the second hidden layer"""
-classifier.add(Dense(units=10, kernel_initializer='uniform', activation='relu'))
-
-"""
-Add the third hidden layer.
-Adding a third layer improves prediction of the test set.
-However it increases the risk of overfitting.
-Adding a fourth layer does not improve performance any further.
-"""
-"""
-https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
-How do we know the number of layers and their types?
-This is a very hard question. There are heuristics that we can use and often the best network structure is found through a process of trial and error experimentation (I explain more about this here). Generally, you need a network large enough to capture the structure of the problem.
-"""
-#classifier.add(Dense(units=7, kernel_initializer='uniform', activation='relu'))
-classifier.add(Dense(units=5, kernel_initializer='uniform', activation='relu'))
-#classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
-
-"""
-Add the output layer
-Sigmoid activation function to get probability as output
-"""
+classifier.add(Dense(units=8, kernel_initializer='uniform', activation='relu'))
+classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
 classifier.add(Dense(units=1, kernel_initializer='uniform', activation='sigmoid'))
 
-"""Compile the ANN"""
+"""
+Compile the ANN
+optimizer = 'adam', commonly used gradient descent algorithm
+loss = 'binary-crossentropy' for binary classification problem
+"""
 classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 """
 Fit the ANN to the training set
-Epochs: number of passes through the training set. Needs to be high enough for convergence.
-Batch size: number of samples before weights are updated. 10 is small enough.
+
+Tests:
+If there are too few epochs or batches, the model is more likely to predict 0 for all test variables
+(because there is ~62% chance of no recurrence in the whole dataset)
+Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure convergance is helpful though.
+Batch size = 10 is sufficient for enough weight training.
+
+Strategy:
+Epochs = 200, weights have converged by this many runs.
+Batch size = 10, enough runs for reliable updates.
+
+Set verbose=1 to see training convergence.
 """
-epochs = 100
+epochs = 500
 batch_size = 10
 classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
 
@@ -195,7 +199,6 @@ y_pred = (y_pred > 0.5)
 """Make the confusion matrix"""
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
-#loss, accuracy = classifier.evaluate(X, y)
 accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
 
 """Plot"""
@@ -207,7 +210,6 @@ import matplotlib.pyplot as plt
 # plt.text(1,0.4,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=20)
 # plt.show()
 
-#plt.figure(figsize=(5, 5))
 plt.imshow(cm, interpolation='nearest', cmap='Blues')
 for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
     plt.text(j, i, cm[i, j], color='white' if cm[i, j] >= cm.max()/2 else 'black')
@@ -217,3 +219,9 @@ plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='c
 plt.xlabel('Prediction')
 plt.ylabel('Actual')
 plt.show()
+
+"""
+Analysis:
+The model usually has an accuracy of 65%-72% on the test data.
+It is realistic to assume this is close to the limit of the data due the inherent randomness of cancer recurrence.
+"""
