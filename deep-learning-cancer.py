@@ -207,12 +207,12 @@ import matplotlib.pyplot as plt
 # plt.text(1,0.4,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=20)
 # plt.show()
 
-plt.figure(figsize=(5, 5))
+#plt.figure(figsize=(5, 5))
 plt.imshow(cm, interpolation='nearest', cmap='Blues')
 for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
     plt.text(j, i, cm[i, j],
              color='white' if cm[i, j] >= cm.max()/2 else 'black')
-plt.title('Confusion matrix\nAccuracy = %0.2f%%    Epochs = %d' %(100*accuracy,epochs))
+plt.title('Confusion matrix\nAccuracy = %0.2f%%' %(100*accuracy))
 plt.xticks([0,1],['No recurrence','Recurrence'])
 plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
 plt.xlabel('Prediction')
