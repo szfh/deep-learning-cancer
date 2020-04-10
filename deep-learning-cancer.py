@@ -186,8 +186,8 @@ def build_model(nodes=[1]):
     Set verbose=1 to see training.
     """
 
-def train_model(classifier, X_train, y_train, epochs=100, batch_size=10, verbose=1):
-    classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=verbose)
+def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
+    classifier.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
 
 
@@ -248,12 +248,13 @@ from sklearn.model_selection import StratifiedKFold
 kfold = StratifiedKFold(n_splits=6, shuffle=True, random_state=1)
 cms = []
 accuracies = []
+
+classifier = build_model()
+
 for train, test in kfold.split(X, y):
-    classifier = build_model(X[train], y[train], epochs=50, verbose=0)
-    # split compile and train!
+    classifier = train_model(classifier, X[train], y[train], epochs=50, verbose=0)
     y_pred = predict(X[test],classifier)
     cm = getcm(y[test], y_pred)
-    # print("%s: %.2f%%" % (classifier.metrics_names[1], scores[1]*100))
     cms.append(cm)
 
 for cm in cms:
