@@ -70,7 +70,7 @@ for i, j in itertools.product(range(X.shape[0]), [0,2,3]):
 """
 There are missing values encoded as '?'
 All are categorical variables, so the mean cannot be found.
-Strategy: replace with the most frequent category
+Strategy: replace with the most frequent category.
 """
 from sklearn.impute import SimpleImputer
 missingvalues = SimpleImputer(missing_values='?',strategy='most_frequent')
@@ -79,11 +79,9 @@ X = missingvalues.transform(X)
 
 """Encode categorical data"""
 from sklearn.compose import ColumnTransformer
-
 from sklearn.preprocessing import LabelEncoder
 for j in [4,6,8]:
     X[:, j] = np.array(LabelEncoder().fit_transform(X[:, j]))
-
 from sklearn.preprocessing import OneHotEncoder
 one_hot_encoder1 = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remainder='passthrough')
 X = np.array(one_hot_encoder1.fit_transform(X))
@@ -111,17 +109,18 @@ Strategy:
 80% training, 20% test to balance training data with verification.
 For more test data this can be increased to ~0.5 exchanging a minor loss of accuracy (~10%).
 """
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# from sklearn.model_selection import train_test_split
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 """
 Feature scaling.
 Variables have mean = 0 and variance = 1.
 """
-from sklearn.preprocessing import StandardScaler
-sc_X = StandardScaler()
-X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.transform(X_test)
+# from sklearn.preprocessing import StandardScaler
+# sc_X = StandardScaler()
+# X_train = sc_X.fit_transform(X_train)
+# X_test = sc_X.transform(X_test)
+# X = StandardScaler().fit_transform(X)
 
 # =============================================================================
 # Part 3 - Artificial Neural Network
@@ -145,11 +144,11 @@ This gives regular good predictions for this dataset.
 """
 
 """Import libraries"""
-from keras.models import Sequential
-from keras.layers import Dense
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dense
 
 """As a function"""
-def build_model(epochs=100, batch_size=10, verbose=1):
+def build_model(X_train, y_train, epochs=100, batch_size=10, verbose=1):
     """Initialise the ANN"""
     classifier = Sequential()
 
@@ -170,7 +169,7 @@ def build_model(epochs=100, batch_size=10, verbose=1):
     loss = 'binary-crossentropy' for binary classification problem
     """
     classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
+    return(classifier)
     """
     Fit the ANN to the training set
 
@@ -189,6 +188,9 @@ def build_model(epochs=100, batch_size=10, verbose=1):
     classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
 
+
+
+
 # =============================================================================
 # Part 4 - Make the predictions
 # =============================================================================
@@ -199,29 +201,17 @@ def predict(X_test, classifier):
     y_pred = (y_pred > 0.5)
     return(y_pred)
 
-def cm(y_test, y_pred):
+def getcm(y_test, y_pred):
     """Make the confusion matrix"""
     from sklearn.metrics import confusion_matrix
     cm = confusion_matrix(y_test, y_pred)
     return(cm)
 
-def acc(cm):
+def getacc(cm):
+    """Calculate the accuracy"""
     accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
     return(accuracy)
 
-""""Applying k-Fold Cross Validation"""
-# from sklearn.model_selection import cross_val_score
-# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10))
-# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10, scoring='accuracy'))
-# accuracies = cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10)
-# accuracies.mean()
-# accuracies.std()
-
-# from sklearn.model_selection import StratifiedKFold
-# kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=1)
-# cvscores = []
-# for train, test in kfold.split(X, y):
-#     print(y[:5])
 # =============================================================================
 # Part 5 - Evaluate the model
 # =============================================================================
@@ -239,12 +229,41 @@ def plotcm(cm, accuracy):
     plt.ylabel('Actual')
     plt.show()
 
-classifier = build_model()
-y_pred = predict(X_test, classifier)
-cm = cm(y_test, y_pred)
-accuracy = acc(cm)
-print(cm, accuracy)
+# classifier = build_model()
+# y_pred = predict(X_test, classifier)
+# cm = cm(y_test, y_pred)
+# print(cm)
+# accuracy = acc(cm)
+# print(accuracy)
 
+""""Applying k-Fold Cross Validation"""
+# from sklearn.model_selection import cross_val_score
+# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10))
+# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10, scoring='accuracy'))
+# accuracies = cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10)
+# accuracies.mean()
+# accuracies.std()
+
+from sklearn.model_selection import StratifiedKFold
+kfold = StratifiedKFold(n_splits=6, shuffle=True, random_state=1)
+cms = []
+accuracies = []
+for train, test in kfold.split(X, y):
+    classifier = build_model(X[train], y[train], epochs=50, verbose=0)
+    # split compile and train!
+    y_pred = predict(X[test],classifier)
+    cm = getcm(y[test], y_pred)
+    # print("%s: %.2f%%" % (classifier.metrics_names[1], scores[1]*100))
+    cms.append(cm)
+
+for cm in cms:
+    accuracies.append(getacc(cm))
+
+print(cms)
+print(accuracies)
+print('mean = %.2f%%' %(np.mean(accuracies)*100))
+
+# print("%.2f%% (+/- %.2f%%)" % (np.mean(cvscores), np.std(cvscores)))
 """
 Analysis:
 The model usually reaches accuracy of 65%-72% on the test data.
