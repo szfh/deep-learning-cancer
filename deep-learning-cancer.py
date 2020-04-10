@@ -6,9 +6,6 @@ date: 2020-03-29
 # Part 1- Import Data
 # =============================================================================
 
-"""reset namespace"""
-%reset -f
-
 """Import libraries"""
 import pandas as pd
 
