@@ -193,7 +193,7 @@ def build_model(epochs=100, batch_size=10, verbose=1):
 # Part 4 - Make the predictions
 # =============================================================================
 
-def predict(X_test):
+def predict(X_test, classifier):
     """Predict the test set results"""
     y_pred = classifier.predict(X_test)
     y_pred = (y_pred > 0.5)
@@ -203,8 +203,11 @@ def cm(y_test, y_pred):
     """Make the confusion matrix"""
     from sklearn.metrics import confusion_matrix
     cm = confusion_matrix(y_test, y_pred)
+    return(cm)
+
+def acc(cm):
     accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
-    return(cm, accuracy)
+    return(accuracy)
 
 """"Applying k-Fold Cross Validation"""
 # from sklearn.model_selection import cross_val_score
@@ -235,6 +238,12 @@ def plotcm(cm, accuracy):
     plt.xlabel('Prediction')
     plt.ylabel('Actual')
     plt.show()
+
+classifier = build_model()
+y_pred = predict(X_test, classifier)
+cm = cm(y_test, y_pred)
+accuracy = acc(cm)
+print(cm, accuracy)
 
 """
 Analysis:
