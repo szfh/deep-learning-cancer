@@ -239,21 +239,28 @@ def plotcm(cm, accuracy):
 # accuracies.mean()
 # accuracies.std()
 
-from sklearn.model_selection import StratifiedKFold
-kfold = StratifiedKFold(n_splits=6, shuffle=True, random_state=1)
-cms = []
-accuracies = []
+def kfold(n_splits=10):
+    """Perform k-fold cross evaluation of the model"""
+    from sklearn.model_selection import StratifiedKFold
+    kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1)
+    # delete random state
+    cms = []
+    accuracies = []
 
-classifier = build_model()
+    classifier = build_model()
 
-for train, test in kfold.split(X, y):
-    classifier = train_model(classifier, X[train], y[train], epochs=50, verbose=0)
-    y_pred = predict(X[test],classifier)
-    cm = getcm(y[test], y_pred)
-    cms.append(cm)
+    for train, test in kfold.split(X, y):
+        classifier = train_model(classifier, X[train], y[train], epochs=50, verbose=0)
+        y_pred = predict(X[test],classifier)
+        cm = getcm(y[test], y_pred)
+        cms.append(cm)
 
-for cm in cms:
-    accuracies.append(getacc(cm))
+    for cm in cms:
+        accuracies.append(getacc(cm))
+
+    return(cms, accuracies)
+
+cms, accuracies = kfold()
 
 print(cms)
 print(accuracies)
