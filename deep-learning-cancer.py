@@ -10,7 +10,6 @@ date: 2020-03-29
 %reset -f
 
 """Import libraries"""
-import numpy as np
 import pandas as pd
 
 """Import dataset"""
@@ -23,6 +22,7 @@ dataset = pd.read_excel('breast-cancer.xls')
 # =============================================================================
 
 """Import libraries"""
+import numpy as np
 import datetime as datetime
 import itertools
 
