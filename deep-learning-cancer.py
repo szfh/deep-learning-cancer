@@ -149,7 +149,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 
 """As a function"""
-def build_model(epochs=100, batch_size=10):
+def build_model(epochs=100, batch_size=10, verbose=1):
     """Initialise the ANN"""
     classifier = Sequential()
 
@@ -186,7 +186,7 @@ def build_model(epochs=100, batch_size=10):
 
     Set verbose=1 to see training.
     """
-    classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
+    classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
 
 # =============================================================================
@@ -214,11 +214,11 @@ def cm(y_test, y_pred):
 # accuracies.mean()
 # accuracies.std()
 
-from sklearn.model_selection import StratifiedKFold
-kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=1)
-cvscores = []
-for train, test in kfold.split(X, y):
-    print(y[:5])
+# from sklearn.model_selection import StratifiedKFold
+# kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=1)
+# cvscores = []
+# for train, test in kfold.split(X, y):
+#     print(y[:5])
 # =============================================================================
 # Part 5 - Evaluate the model
 # =============================================================================
