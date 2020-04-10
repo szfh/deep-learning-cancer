@@ -223,17 +223,18 @@ for train, test in kfold.split(X, y):
 # Part 5 - Evaluate the model
 # =============================================================================
 
-"""Plot"""
-import matplotlib.pyplot as plt
-plt.imshow(cm, interpolation='nearest', cmap='Blues')
-for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-    plt.text(j, i, cm[i, j], color='white' if cm[i, j] >= cm.max()/2 else 'black')
-plt.title('Confusion matrix\nAccuracy = %0.2f%%' %(100*accuracy))
-plt.xticks([0,1],['No recurrence','Recurrence'])
-plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
-plt.xlabel('Prediction')
-plt.ylabel('Actual')
-plt.show()
+def plotcm(cm, accuracy):
+    """Plot"""
+    import matplotlib.pyplot as plt
+    plt.imshow(cm, interpolation='nearest', cmap='Blues')
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, cm[i, j], color='white' if cm[i, j] >= cm.max()/2 else 'black')
+    plt.title('Confusion matrix\nAccuracy = %0.2f%%' %(100*accuracy))
+    plt.xticks([0,1],['No recurrence','Recurrence'])
+    plt.yticks([0,1],['No recurrence','Recurrence'],rotation=90,verticalalignment='center')
+    plt.xlabel('Prediction')
+    plt.ylabel('Actual')
+    plt.show()
 
 """
 Analysis:
