@@ -36,7 +36,7 @@ eg. '3-5' -> 3 May 19.
 This loop changes datetimes to the correct range.
 """
 def datetime_to_string(s):
-    """Function to replace datetimes with strings"""
+    """Replace datetimes with strings"""
     switch={
         datetime.datetime(2019, 5, 3):'3-5',
         datetime.datetime(2019, 9, 5):'5-9',
@@ -56,7 +56,7 @@ This loop replaces with the midpoint of the two values (rounded up).
 eg. '40-49' -> 45
 """
 def get_mid_point(n):
-    """Function to get the mid point of a range of values"""
+    """Get the mid point of a range of values"""
     n = n.split('-')
     n = [int(i) for i in n]
     n = np.mean(n)
@@ -87,13 +87,10 @@ one_hot_encoder1 = ColumnTransformer([('encoder', OneHotEncoder(), [1])], remain
 X = np.array(one_hot_encoder1.fit_transform(X))
 one_hot_encoder2 = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remainder='passthrough')
 X = np.array(one_hot_encoder2.fit_transform(X))
-
-"""Encode dependent variable"""
 y = LabelEncoder().fit_transform(y)
 
 """Change type"""
-X = np.array(X, dtype=np.int64)
-y = np.array(y, dtype=np.int64)
+X = np.array(X, dtype=np.int32)
 
 """
 Avoid the dummy variable trap.
@@ -148,7 +145,7 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
 
 """As a function"""
-def build_model(nodes=[1]):
+def build_model(nodes=[1], input_dim=13):
     """Initialise the ANN"""
     classifier = Sequential()
 
@@ -158,7 +155,7 @@ def build_model(nodes=[1]):
     activation = 'relu' for hidden layers, non-zero output to positive input.
     activation = 'sigmoid' for output layer to get probability.
     """
-    classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=13))
+    classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=input_dim))
     classifier.add(Dense(units=8, kernel_initializer='uniform', activation='relu'))
     classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
     classifier.add(Dense(units=1, kernel_initializer='uniform', activation='sigmoid'))
@@ -170,6 +167,9 @@ def build_model(nodes=[1]):
     """
     classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return(classifier)
+
+
+def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
     """
     Fit the ANN to the training set
 
@@ -182,14 +182,9 @@ def build_model(nodes=[1]):
     Strategy:
     Epochs = 500, weights have converged by this many runs.
     Batch size = 10, enough runs for reliable updates.
-
-    Set verbose=1 to see training.
     """
-
-def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
     classifier.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
-
 
 # =============================================================================
 # Part 4 - Make the predictions
@@ -212,12 +207,8 @@ def getacc(cm):
     accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
     return(accuracy)
 
-# =============================================================================
-# Part 5 - Evaluate the model
-# =============================================================================
-
 def plotcm(cm, accuracy):
-    """Plot"""
+    """Plot the confusion matrix"""
     import matplotlib.pyplot as plt
     plt.imshow(cm, interpolation='nearest', cmap='Blues')
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
@@ -228,6 +219,10 @@ def plotcm(cm, accuracy):
     plt.xlabel('Prediction')
     plt.ylabel('Actual')
     plt.show()
+
+# =============================================================================
+# Part 5 - Evaluate the model
+# =============================================================================
 
 # classifier = build_model()
 # y_pred = predict(X_test, classifier)
