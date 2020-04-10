@@ -29,8 +29,9 @@
 	1. Predict the test results :heavy_check_mark:
 	1. Make the confusion matrix :heavy_check_mark:
 	1. Present the confusion matrix :heavy_check_mark:
+1. **Validation** :large_orange_diamond:
+	1. k-fold cross validation :large_orange_diamond:
 1. Improve model :large_orange_diamond:
-	1. xgboost :question:
 1. Comments and notes :large_orange_diamond:
 1. Check and simplify code :large_orange_diamond:
 1. Run on Colab :large_orange_diamond:
