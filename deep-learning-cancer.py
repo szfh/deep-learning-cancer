@@ -145,51 +145,51 @@ This gives regular good predictions for this dataset.
 """
 
 """Import libraries"""
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense
+from keras.models import Sequential
+from keras.layers import Dense
 
-"""Initialise the ANN"""
-classifier = Sequential()
+"""As a function"""
+def build_model(epochs=100, batch_size=10):
+    """Initialise the ANN"""
+    classifier = Sequential()
 
-"""
-Add the layers to the model.
-kernel_initializer = 'uniform', randomly initialise the weights close to 0.
-activation = 'relu' for hidden layers, non-zero output to positive input.
-activation = 'sigmoid' for output layer to get probability.
-"""
-classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=13))
-classifier.add(Dense(units=8, kernel_initializer='uniform', activation='relu'))
-classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
-classifier.add(Dense(units=1, kernel_initializer='uniform', activation='sigmoid'))
+    """
+    Add the layers to the model.
+    kernel_initializer = 'uniform', randomly initialise the weights close to 0.
+    activation = 'relu' for hidden layers, non-zero output to positive input.
+    activation = 'sigmoid' for output layer to get probability.
+    """
+    classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=13))
+    classifier.add(Dense(units=8, kernel_initializer='uniform', activation='relu'))
+    classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
+    classifier.add(Dense(units=1, kernel_initializer='uniform', activation='sigmoid'))
 
-"""
-Compile the ANN
-optimizer = 'adam', commonly used gradient descent algorithm
-loss = 'binary-crossentropy' for binary classification problem
-"""
-classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    """
+    Compile the ANN
+    optimizer = 'adam', commonly used gradient descent algorithm
+    loss = 'binary-crossentropy' for binary classification problem
+    """
+    classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-"""
-Fit the ANN to the training set
+    """
+    Fit the ANN to the training set
 
-Tests:
-If there are too few epochs or batches, the model is more likely to predict 0 for all test variables
-(because there is ~62% chance of no recurrence in the whole dataset)
-Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure convergance is helpful though.
-Batch size = 10 is sufficient for enough weight training.
+    Tests:
+    If there are too few epochs or batches, the model is more likely to predict 0 for all test variables
+    (because there is ~62% chance of no recurrence in the whole dataset)
+    Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure convergance is helpful though.
+    Batch size = 10 is sufficient for enough weight training.
 
-Strategy:
-Epochs = 500, weights have converged by this many runs.
-Batch size = 10, enough runs for reliable updates.
+    Strategy:
+    Epochs = 500, weights have converged by this many runs.
+    Batch size = 10, enough runs for reliable updates.
 
-Set verbose=1 to see training.
-"""
-epochs = 500
-batch_size = 10
-classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
+    Set verbose=1 to see training.
+    """
+    classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
 
 # =============================================================================
-# Part 4 - Make the predictions and evaluating the model
+# Part 4 - Make the predictions
 # =============================================================================
 
 """Predict the test set results"""
@@ -200,6 +200,23 @@ y_pred = (y_pred > 0.5)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
+
+""""Applying k-Fold Cross Validation"""
+# from sklearn.model_selection import cross_val_score
+# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10))
+# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10, scoring='accuracy'))
+# accuracies = cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10)
+# accuracies.mean()
+# accuracies.std()
+
+from sklearn.model_selection import StratifiedKFold
+kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=1)
+cvscores = []
+for train, test in kfold.split(X, y):
+    print(y[:5])
+# =============================================================================
+# Part 5 - Evaluate the model
+# =============================================================================
 
 """Plot"""
 import matplotlib.pyplot as plt
