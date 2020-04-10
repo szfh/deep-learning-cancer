@@ -252,12 +252,13 @@ def kfold(classifier, epochs=100, n_splits=10, verbose=1):
     for train, test in kfold.split(X, y):
         classifier = train_model(classifier, X[train], y[train], epochs=epochs, verbose=verbose)
         y_pred = predict(X[test],classifier)
-        cms.append(getcm(y[test], y_pred))
+        cm = getcm(y[test], y_pred)
+        cms.append(cm)
         accuracies.append(getacc(cm))
 
     return(cms, accuracies)
 
-cms, accuracies = kfold(classifier, epochs=50, n_splits=5)
+cms, accuracies = kfold(classifier, epochs=100, n_splits=10)
 
 print(cms)
 print(accuracies)
