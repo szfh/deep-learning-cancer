@@ -179,7 +179,7 @@ Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure 
 Batch size = 10 is sufficient for enough weight training.
 
 Strategy:
-Epochs = 200, weights have converged by this many runs.
+Epochs = 500, weights have converged by this many runs.
 Batch size = 10, enough runs for reliable updates.
 
 Set verbose=1 to see training.
