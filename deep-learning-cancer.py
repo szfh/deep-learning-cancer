@@ -148,7 +148,7 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
 
 """As a function"""
-def build_model(X_train, y_train, epochs=100, batch_size=10, verbose=1):
+def build_model(nodes=[1]):
     """Initialise the ANN"""
     classifier = Sequential()
 
@@ -185,10 +185,10 @@ def build_model(X_train, y_train, epochs=100, batch_size=10, verbose=1):
 
     Set verbose=1 to see training.
     """
+
+def train_model(classifier, X_train, y_train, epochs=100, batch_size=10, verbose=1):
     classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
-
-
 
 
 # =============================================================================
