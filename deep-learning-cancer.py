@@ -187,6 +187,7 @@ def build_model(epochs=100, batch_size=10):
     Set verbose=1 to see training.
     """
     classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
+    return(classifier)
 
 # =============================================================================
 # Part 4 - Make the predictions
@@ -196,11 +197,14 @@ def predict(X_test):
     """Predict the test set results"""
     y_pred = classifier.predict(X_test)
     y_pred = (y_pred > 0.5)
+    return(y_pred)
 
-"""Make the confusion matrix"""
-from sklearn.metrics import confusion_matrix
-cm = confusion_matrix(y_test, y_pred)
-accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
+def cm(y_test, y_pred):
+    """Make the confusion matrix"""
+    from sklearn.metrics import confusion_matrix
+    cm = confusion_matrix(y_test, y_pred)
+    accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
+    return(cm, accuracy)
 
 """"Applying k-Fold Cross Validation"""
 # from sklearn.model_selection import cross_val_score
