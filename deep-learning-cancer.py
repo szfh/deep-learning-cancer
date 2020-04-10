@@ -254,8 +254,6 @@ def kfold(classifier, epochs=100, n_splits=10, verbose=1):
         y_pred = predict(X[test],classifier)
         cm = getcm(y[test], y_pred)
         cms.append(cm)
-
-    for cm in cms:
         accuracies.append(getacc(cm))
 
     return(cms, accuracies)
