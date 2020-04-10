@@ -13,7 +13,7 @@ date: 2020-03-29
 import pandas as pd
 
 """Import dataset"""
-# from google.colab import files # in colab
+# from google.colab import files
 # uploaded = files.upload()
 dataset = pd.read_excel('breast-cancer.xls')
 
@@ -182,11 +182,11 @@ Strategy:
 Epochs = 200, weights have converged by this many runs.
 Batch size = 10, enough runs for reliable updates.
 
-Set verbose=1 to see training convergence.
+Set verbose=1 to see training.
 """
 epochs = 500
 batch_size = 10
-classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
+classifier.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
 
 # =============================================================================
 # Part 4 - Make the predictions and evaluating the model
@@ -203,13 +203,6 @@ accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
 
 """Plot"""
 import matplotlib.pyplot as plt
-# plt.scatter(range(y_pred.shape[0]),y_pred,marker='o',color='red',edgecolors='black',alpha=1)
-# plt.scatter(range(y_test.shape[0]),y_test,marker='o',color='green',edgecolors='black',alpha=1)
-# plt.title('Cancer recurrence prediction\nHidden layers = 3, Epochs = %d, Batch size = %d' %(epochs, batch_size))
-# plt.ylabel('Probability of recurrence event (%)')
-# plt.text(1,0.4,'[%d,%d]\n[%d,%d]' %(cm[0][0], cm[0][1], cm[1][0], cm[1][1]),size=20)
-# plt.show()
-
 plt.imshow(cm, interpolation='nearest', cmap='Blues')
 for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
     plt.text(j, i, cm[i, j], color='white' if cm[i, j] >= cm.max()/2 else 'black')
@@ -222,6 +215,6 @@ plt.show()
 
 """
 Analysis:
-The model usually has an accuracy of 65%-72% on the test data.
-It is realistic to assume this is close to the limit of the data due the inherent randomness of cancer recurrence.
+The model usually reaches accuracy of 65%-72% on the test data.
+It is realistic to assume this is close to the limit of the dataset due the inherent uncertainty of cancer recurrence.
 """
