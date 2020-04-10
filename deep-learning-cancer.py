@@ -192,9 +192,10 @@ def build_model(epochs=100, batch_size=10):
 # Part 4 - Make the predictions
 # =============================================================================
 
-"""Predict the test set results"""
-y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
+def predict(X_test):
+    """Predict the test set results"""
+    y_pred = classifier.predict(X_test)
+    y_pred = (y_pred > 0.5)
 
 """Make the confusion matrix"""
 from sklearn.metrics import confusion_matrix
