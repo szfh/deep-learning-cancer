@@ -239,7 +239,9 @@ def plotcm(cm, accuracy):
 # accuracies.mean()
 # accuracies.std()
 
-def kfold(n_splits=10):
+classifier = build_model()
+
+def kfold(classifier, epochs=100, n_splits=10, verbose=1):
     """Perform k-fold cross evaluation of the model"""
     from sklearn.model_selection import StratifiedKFold
     kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1)
@@ -247,10 +249,8 @@ def kfold(n_splits=10):
     cms = []
     accuracies = []
 
-    classifier = build_model()
-
     for train, test in kfold.split(X, y):
-        classifier = train_model(classifier, X[train], y[train], epochs=50, verbose=0)
+        classifier = train_model(classifier, X[train], y[train], epochs=epochs, verbose=verbose)
         y_pred = predict(X[test],classifier)
         cm = getcm(y[test], y_pred)
         cms.append(cm)
@@ -260,13 +260,12 @@ def kfold(n_splits=10):
 
     return(cms, accuracies)
 
-cms, accuracies = kfold()
+cms, accuracies = kfold(classifier, epochs=50, n_splits=5)
 
 print(cms)
 print(accuracies)
 print('mean = %.2f%%' %(np.mean(accuracies)*100))
 
-# print("%.2f%% (+/- %.2f%%)" % (np.mean(cvscores), np.std(cvscores)))
 """
 Analysis:
 The model usually reaches accuracy of 65%-72% on the test data.
