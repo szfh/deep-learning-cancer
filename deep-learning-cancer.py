@@ -13,9 +13,12 @@ date: 2020-03-29
 import pandas as pd
 
 """Import dataset"""
-# from google.colab import files
-# uploaded = files.upload()
-dataset = pd.read_excel('breast-cancer.xls')
+try:
+    dataset
+except NameError:
+    # from google.colab import files
+    # uploaded = files.upload()
+    dataset = pd.read_excel('breast-cancer.xls')
 
 # =============================================================================
 # Part 2 - Data Preprocessing
