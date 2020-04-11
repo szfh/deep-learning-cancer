@@ -4,7 +4,7 @@
 
 ## Plan
 
-1. Import dataset :heavy_check_mark:
+1. **Import dataset** :heavy_check_mark:
 1. **Data preprocessing** :heavy_check_mark:
 	1. Create `X` and `y` :heavy_check_mark:
 	1. Replace datetimes with strings :heavy_check_mark:
@@ -16,7 +16,7 @@
 			1. Avoid the dummy variable trap :heavy_check_mark:
 	1. Feature scaling :heavy_check_mark:
 	1. Split to `training` and `test` set :heavy_check_mark:
-1. **Compile the model** :heavy_check_mark:
+1. **Build Artificial Neural Network** :heavy_check_mark:
 	1. Import Keras :heavy_check_mark:
 	1. Initialise the ANN :heavy_check_mark:
 	1. Add the input layer :heavy_check_mark:
@@ -25,13 +25,19 @@
 	1. Add the output layer :heavy_check_mark:
 	1. Compile the ANN :heavy_check_mark:
 	1. Fit the ANN to the training set :heavy_check_mark:
-1. **Make predictions** :heavy_check_mark:
+1. **Evaluate with k-Fold Cross Evaluation** :heavy_check_mark:
+	1. k-fold cross validation :heavy_check_mark:
+	1. Present results :heavy_check_mark:
+1. **Predict unseen data** :heavy_check_mark:
 	1. Predict the test results :heavy_check_mark:
 	1. Make the confusion matrix :heavy_check_mark:
-1. Improve model :large_orange_diamond:
-1. Comments and notes :large_orange_diamond:
-1. Check and simplify code :large_orange_diamond:
-1. Run on Colab :large_orange_diamond:
+	1. Present the confusion matrix :heavy_check_mark:
+1. **Improve model** :heavy_check_mark:
+1. **Improve code** :heavy_check_mark:
+	1. Tasks as functions :heavy_check_mark:
+1. **Comments and notes** :heavy_check_mark:
+	1. Strategy explained :heavy_check_mark:
+1. **Run on Colab** :heavy_check_mark:
 
 ## Task
 
