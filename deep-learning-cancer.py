@@ -123,7 +123,7 @@ Variables have mean = 0 and variance = 1.
 # Part X - Build Artificial Neural Network
 # =============================================================================
 
-def build_model(nodes=[1], input_dim):
+def build_model(nodes=[1], input_dim=13):
     """Build an Artifical Neural Network"""
 
     """Import libraries"""
@@ -160,18 +160,19 @@ There is no "standard" design approach, the model must have enough nodes to capt
 A trial and error approach from a simple starting point is usually effective.
 
 Tests:
-Initial test of 2 hidden layers both with 7 nodes (mean of input and output = ((13+1)/2))
+Initial test of 2 hidden layers each with 7 nodes (mean of input and output = ((13+1)/2))
+Additional layers added to capture weights for more data relationships.
 Very large numbers (>100) or too many hidden layers (>6) can cause overfitting.
 Too small (<5 in the first/second layer) means relevant variables/weights are not always captured.
 
 Strategy:
-Use 3 hidden layers, first with 20 nodes (above) to capture the data complexity (13 inputs)
-Then scaling down to 1 node in the output (20-8-3-1).
+Use 3 hidden layers, first with 20 nodes to capture the data complexity (13 inputs).
+Then scaling down to 1 node in the output [20-10-3-1].
 This gives regular good predictions for this dataset.
 """
 
 """Build model"""
-nodes = [20,10,5,1]
+nodes = [20,10,3,1]
 classifier = build_model(nodes, input_dim=X.shape[1])
 
 # =============================================================================
@@ -180,24 +181,10 @@ classifier = build_model(nodes, input_dim=X.shape[1])
 
 def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
     """
-    Fit the ANN to the training set
 
-    Tests:
-    If there are too few epochs or batches, the model is more likely to predict 0 for all test variables
-    (because there is ~62% chance of no recurrence in the whole dataset)
-    Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure convergance is helpful though.
-    Batch size = 10 is sufficient for enough weight training.
-
-    Strategy:
-    Epochs = 500, weights have converged by this many runs.
-    Batch size = 10, enough runs for reliable updates.
     """
     classifier.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
-
-# =============================================================================
-# Part 4 - Make the predictions
-# =============================================================================
 
 def predict(X_test, classifier):
     """Predict the test set results"""
@@ -229,11 +216,7 @@ def plotconfusionmatrix(cm, accuracy):
     plt.ylabel('Actual')
     plt.show()
 
-# =============================================================================
-# Part 5 - Evaluate the model
-# =============================================================================
-
-def kfold(classifier, epochs=100, n_splits=10, verbose=1):
+def kfold(classifier, epochs=100, batch_size=10, n_splits=10, verbose=1):
     """Perform k-fold cross evaluation of the model"""
     from sklearn.model_selection import StratifiedKFold
     kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1)
@@ -250,15 +233,35 @@ def kfold(classifier, epochs=100, n_splits=10, verbose=1):
 
     return(cms, accuracies)
 
-cms, accuracies = kfold(classifier, epochs=50, n_splits=5)
+"""
+Fit the ANN to the training set, and evaluate with k-fold cross evaluation.
+The training parameters are passed to the function and run multiple times.
+This gives multiple confusion matrices as an output with calculated accuracies.
 
-print(cms)
+Tests:
+If there are too few epochs or batches, the model is more likely to predict 0 for all test variables
+(because there is ~62% chance of no recurrence in the whole dataset)
+Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure convergance is helpful.
+
+Strategy:
+Epochs = 500, weights have converged by this many runs.
+Batch size = 10, enough runs for sufficient weight training iterations.
+n_splits = 10, enough evaluations to get reliable mean accuracy.
+"""
+cms, accuracies = kfold(classifier, epochs=50, batch_size=10, n_splits=5)
+
+# print(cms)
 print(accuracies)
-print('mean = %.2f%%' %(np.mean(accuracies)*100))
-print('std = %.4f' %(np.std(accuracies)))
+print('Mean accuracy = %.2f%%' %(np.mean(accuracies)*100))
+print('Standard deviation = %.4f' %(np.std(accuracies)))
 
 """
 Analysis:
 The model usually reaches accuracy of 65%-72% on the test data.
 It is realistic to assume this is close to the limit of the dataset due the inherent uncertainty of cancer recurrence.
 """
+
+# =============================================================================
+# Part X - Predict unseen data
+# =============================================================================
+
