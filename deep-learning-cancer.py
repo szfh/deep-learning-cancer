@@ -9,7 +9,7 @@ date: 2020-03-29
 """Import libraries"""
 import pandas as pd
 
-"""Import dataset"""
+"""Import dataset, if it is not already imported"""
 try:
     dataset
 except NameError:
@@ -26,7 +26,7 @@ import numpy as np
 import datetime as datetime
 import itertools
 
-"""Create arrays of independent and dependent variables"""
+"""Create independent and dependent variables"""
 X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, -1].values
 
@@ -99,10 +99,7 @@ X = np.delete(X, [0,5],axis=1)
 """Change type"""
 X = np.array(X, dtype=np.int32)
 
-"""
-Feature scaling.
-Variables have mean = 0 and variance = 1.
-"""
+"""Feature scaling. Variables have mean = 0 and variance = 1."""
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X = StandardScaler().fit_transform(X)
@@ -123,7 +120,6 @@ def build_model(nodes=[1], input_dim=13):
 
     """
     Add the layers to the model.
-    input_dim must be specified in the initial layer.
     kernel_initializer = 'uniform', randomly initialise the weights close to 0.
     activation = 'relu' for hidden layers, non-zero output to positive input.
     activation = 'sigmoid' for output layer to get probability.
@@ -134,14 +130,16 @@ def build_model(nodes=[1], input_dim=13):
     classifier.add(Dense(units=nodes[-1], kernel_initializer='uniform', activation='sigmoid'))
 
     """
-    Compile the ANN
-    optimizer = 'adam', commonly used gradient descent algorithm
-    loss = 'binary-crossentropy' for binary classification problem
+    Compile the ANN.
+    optimizer = 'adam', commonly used gradient descent algorithm.
+    loss = 'binary-crossentropy' for binary classification.
     """
     classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return(classifier)
 
 """
+Build model.
+
 Approach:
 We need to build a model to achieve good accuracy while minimising overfitting.
 There is no "standard" design approach, the model must have enough nodes to capture the dataset complexity.
@@ -154,12 +152,10 @@ Very large numbers (>100) or too many hidden layers (>6) can cause overfitting.
 Too small (<5 in the first/second layer) means relevant variables/weights are not always captured.
 
 Strategy:
-Use 3 hidden layers, first with 20 nodes to capture the data complexity (13 inputs).
-Then scaling down to 1 node in the output.
+Use 4 hidden layers, first with 25 nodes to capture the data complexity (13 inputs).
+Then scaling down to the single output node.
 This gives regular good predictions for this dataset.
 """
-
-"""Build model"""
 nodes = [25,15,8,3,1]
 classifier = build_model(nodes, input_dim=X.shape[1])
 
@@ -167,7 +163,7 @@ classifier = build_model(nodes, input_dim=X.shape[1])
 # Part 4 - Evaluate Artificial Neural Network with k-Fold Cross Evaluation
 # =============================================================================
 
-def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
+def train_model(classifier, X, y, epochs, batch_size, verbose=1):
     """Train the ANN using training data"""
     classifier.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
@@ -202,7 +198,7 @@ def plotconfusionmatrix(cm, accuracy):
     plt.ylabel('Actual')
     plt.show()
 
-def kfold(classifier, epochs=100, batch_size=10, n_splits=10, verbose=1):
+def kfold(classifier, epochs, batch_size=10, n_splits=10, verbose=1):
     """Perform k-fold cross evaluation of the model"""
     from sklearn.model_selection import StratifiedKFold
     kfold = StratifiedKFold(n_splits=n_splits, shuffle=True)
@@ -226,18 +222,17 @@ This gives multiple confusion matrices as an output with calculated accuracies.
 Tests:
 If there are too few epochs or batches, the model is more likely to predict 0 for all test variables
 (because there is ~62% chance of no recurrence in the whole dataset)
-Accuracy stabilises usually around 100-200 epochs. Adding more epochs to ensure convergance is helpful.
+Accuracy stabilises usually around 60-120 epochs. Adding more epochs to ensure convergance is helpful.
 
 Strategy:
-Epochs = 500, weights have converged by this many runs.
+Epochs = 200, accuracy has stabilised by this many runs.
 Batch size = 10, enough runs for sufficient weight training iterations.
 n_splits = 10, enough evaluations to get reliable mean accuracy.
-set verbose=1/0 for more/less text in console.
 """
 epochs=200
 batch_size=10
 n_splits=10
-verbose = 0
+verbose = 0 # set verbose=1/0 for more/less text in console.
 cms, accuracies = kfold(classifier, epochs=epochs, batch_size=batch_size, n_splits=n_splits, verbose=verbose)
 
 print('k-fold cross evaluation splits: %d' %(n_splits))
@@ -245,7 +240,7 @@ print('Mean accuracy = %.2f%%' %(np.mean(accuracies)*100))
 print('Best accuracy = %.2f%%' %(np.max(accuracies)*100))
 print('Worst accuracy = %.2f%%' %(np.min(accuracies)*100))
 print('Standard deviation = %.4f' %(np.std(accuracies)))
-print('k-Fold cross evaluation best confusion matrix:')
+print('k-Fold cross evaluation best accuracy confusion matrix:')
 plotconfusionmatrix(cms[np.argmax(accuracies)], np.max(accuracies))
 
 # =============================================================================
