@@ -235,11 +235,13 @@ Strategy:
 Epochs = 500, weights have converged by this many runs.
 Batch size = 10, enough runs for sufficient weight training iterations.
 n_splits = 10, enough evaluations to get reliable mean accuracy.
+set verbose=1/0 for more/less text in console.
 """
 epochs=200
 batch_size=10
 n_splits=10
-cms, accuracies = kfold(classifier, epochs=epochs, batch_size=batch_size, n_splits=n_splits, verbose=0)
+verbose = 0
+cms, accuracies = kfold(classifier, epochs=epochs, batch_size=batch_size, n_splits=n_splits, verbose=verbose)
 
 print('k-fold cross evaluation splits: %d' %(n_splits))
 print('Mean accuracy = %.2f%%' %(np.mean(accuracies)*100))
@@ -273,7 +275,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 Train model.
 The same classifier and parameters are used as for the k-fold cross evaluation.
 """
-classifier = train_model(classifier, X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
+classifier = train_model(classifier, X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=verbose)
 
 """Predict recurrence"""
 y_pred = predict(X_test,classifier)
