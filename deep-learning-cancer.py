@@ -224,14 +224,7 @@ def plotcm(cm, accuracy):
 # Part 5 - Evaluate the model
 # =============================================================================
 
-""""Applying k-Fold Cross Validation"""
-# from sklearn.model_selection import cross_val_score
-# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10))
-# print(cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10, scoring='accuracy'))
-# accuracies = cross_val_score(estimator=classifier, X=X_train, y=y_train, cv=10)
-# accuracies.mean()
-# accuracies.std()
-
+"""build model"""
 classifier = build_model()
 
 def kfold(classifier, epochs=100, n_splits=10, verbose=1):
@@ -251,7 +244,7 @@ def kfold(classifier, epochs=100, n_splits=10, verbose=1):
 
     return(cms, accuracies)
 
-cms, accuracies = kfold(classifier, epochs=100, n_splits=10)
+cms, accuracies = kfold(classifier, epochs=50, n_splits=5)
 
 print(cms)
 print(accuracies)
