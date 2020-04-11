@@ -100,16 +100,6 @@ X = np.delete(X, [0,5],axis=1)
 X = np.array(X, dtype=np.int32)
 
 """
-Create training and test set.
-n = 286
-Strategy:
-80% training, 20% test to balance training data with verification.
-For more test data this can be increased to ~0.5 exchanging a minor loss of accuracy (~10%).
-"""
-# from sklearn.model_selection import train_test_split
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-
-"""
 Feature scaling.
 Variables have mean = 0 and variance = 1.
 """
@@ -223,7 +213,7 @@ def kfold(classifier, epochs=100, batch_size=10, n_splits=10, verbose=1):
     accuracies = []
 
     for train, test in kfold.split(X, y):
-        classifier = train_model(classifier, X[train], y[train], epochs=epochs, verbose=verbose)
+        classifier = train_model(classifier, X[train], y[train], epochs=epochs, batch_size=batch_size, verbose=verbose)
         y_pred = predict(X[test],classifier)
         cm = getconfusionmatrix(y[test], y_pred)
         cms.append(cm)
@@ -246,7 +236,7 @@ Epochs = 500, weights have converged by this many runs.
 Batch size = 10, enough runs for sufficient weight training iterations.
 n_splits = 10, enough evaluations to get reliable mean accuracy.
 """
-epochs=100
+epochs=200
 batch_size=10
 n_splits=10
 cms, accuracies = kfold(classifier, epochs=epochs, batch_size=batch_size, n_splits=n_splits, verbose=0)
@@ -263,3 +253,36 @@ plotconfusionmatrix(cms[np.argmax(accuracies)], np.max(accuracies))
 # Part X - Predict unseen data
 # =============================================================================
 
+"""
+The model is designed using all the available data.
+To predict unseen data it is split into training and test data.
+The test data is not used for training and is unseen by the model.
+"""
+
+"""
+Create training and test set.
+
+Strategy:
+80% training, 20% test to balance training data with verification.
+For more test data this can be increased to ~0.5 exchanging a minor loss of accuracy (~10%).
+"""
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+"""
+Train model.
+The same classifier and parameters are used as for the k-fold cross evaluation.
+"""
+classifier = train_model(classifier, X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
+
+"""Predict recurrence"""
+y_pred = predict(X_test,classifier)
+
+"""Make the confusion matrix"""
+cm = getconfusionmatrix(y_test, y_pred)
+
+"""Caluclate the accuracy"""
+accuracy = getaccuracy(cm)
+
+"""Plot the confusion matrix"""
+plotconfusionmatrix(cm, accuracy)
