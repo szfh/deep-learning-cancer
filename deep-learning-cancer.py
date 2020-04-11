@@ -18,7 +18,7 @@ except NameError:
     dataset = pd.read_excel('breast-cancer.xls')
 
 # =============================================================================
-# Part 2 - Data Preprocessing
+# Part 2 - Data preprocessing
 # =============================================================================
 
 """Import libraries"""
@@ -105,12 +105,10 @@ Variables have mean = 0 and variance = 1.
 """
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
-# X_train = sc_X.fit_transform(X_train)
-# X_test = sc_X.transform(X_test)
 X = StandardScaler().fit_transform(X)
 
 # =============================================================================
-# Part X - Build Artificial Neural Network
+# Part 3 - Build Artificial Neural Network
 # =============================================================================
 
 def build_model(nodes=[1], input_dim=13):
@@ -166,7 +164,7 @@ nodes = [25,15,8,3,1]
 classifier = build_model(nodes, input_dim=X.shape[1])
 
 # =============================================================================
-# Part X - Evaluate Artificial Neural Network
+# Part 4 - Evaluate Artificial Neural Network with k-Fold Cross Evaluation
 # =============================================================================
 
 def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
@@ -248,18 +246,12 @@ print('Mean accuracy = %.2f%%' %(np.mean(accuracies)*100))
 print('Best accuracy = %.2f%%' %(np.max(accuracies)*100))
 print('Worst accuracy = %.2f%%' %(np.min(accuracies)*100))
 print('Standard deviation = %.4f' %(np.std(accuracies)))
-print('Best confusion matrix:')
+print('k-Fold cross evaluation best confusion matrix:')
 plotconfusionmatrix(cms[np.argmax(accuracies)], np.max(accuracies))
 
 # =============================================================================
-# Part X - Predict unseen data
+# Part 5 - Predict unseen data
 # =============================================================================
-
-"""
-The model is designed using all the available data.
-To predict unseen data it is split into training and test data.
-The test data is not used for training and is unseen by the model.
-"""
 
 """
 Create training and test set.
@@ -287,4 +279,5 @@ cm = getconfusionmatrix(y_test, y_pred)
 accuracy = getaccuracy(cm)
 
 """Plot the confusion matrix"""
+print('Unseen data confusion matrix:')
 plotconfusionmatrix(cm, accuracy)
