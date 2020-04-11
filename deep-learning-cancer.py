@@ -89,15 +89,15 @@ one_hot_encoder2 = ColumnTransformer([('encoder', OneHotEncoder(), [9])], remain
 X = np.array(one_hot_encoder2.fit_transform(X))
 y = LabelEncoder().fit_transform(y)
 
-"""Change type"""
-X = np.array(X, dtype=np.int32)
-
 """
 Avoid the dummy variable trap.
 Categories created by OneHotEncoder are multicollinear.
 Strategy: one column is dropped from each.
 """
 X = np.delete(X, [0,5],axis=1)
+
+"""Change type"""
+X = np.array(X, dtype=np.int32)
 
 """
 Create training and test set.
