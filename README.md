@@ -32,12 +32,12 @@
 	1. Predict the test results :heavy_check_mark:
 	1. Make the confusion matrix :heavy_check_mark:
 	1. Present the confusion matrix :heavy_check_mark:
-1. **Improve model** :large_orange_diamond:
-1. **Improve code** :large_orange_diamond:
-	1. Tasks as functions :large_orange_diamond:
-1. **Comments and notes** :large_orange_diamond:
-	1. Strategy explained :large_orange_diamond:
-1. **Run on Colab** :large_orange_diamond:
+1. **Improve model** :heavy_check_mark:
+1. **Improve code** :heavy_check_mark:
+	1. Tasks as functions :heavy_check_mark:
+1. **Comments and notes** :heavy_check_mark:
+	1. Strategy explained :heavy_check_mark:
+1. **Run on Colab** :heavy_check_mark:
 
 ## Task
 
