@@ -120,7 +120,7 @@ Variables have mean = 0 and variance = 1.
 # X = StandardScaler().fit_transform(X)
 
 # =============================================================================
-# Part 3 - Artificial Neural Network
+# Part X - Build Artificial Neural Network
 # =============================================================================
 
 """
@@ -140,8 +140,9 @@ Then scaling down to 1 node in the output (20-8-3-1).
 This gives regular good predictions for this dataset.
 """
 
-"""As a function"""
 def build_model(nodes=[1], input_dim=13):
+    """Build an Artifical Neural Network"""
+
     """Import libraries"""
     from tensorflow.python.keras.models import Sequential
     from tensorflow.python.keras.layers import Dense
@@ -155,10 +156,11 @@ def build_model(nodes=[1], input_dim=13):
     activation = 'relu' for hidden layers, non-zero output to positive input.
     activation = 'sigmoid' for output layer to get probability.
     """
-    classifier.add(Dense(units=20, kernel_initializer='uniform', activation='relu', input_dim=input_dim))
-    classifier.add(Dense(units=8, kernel_initializer='uniform', activation='relu'))
-    classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
-    classifier.add(Dense(units=1, kernel_initializer='uniform', activation='sigmoid'))
+    classifier.add(Dense(units=nodes[0], kernel_initializer='uniform', activation='relu', input_dim=input_dim))
+    for node in nodes[1:-1]:
+        classifier.add(Dense(units=node, kernel_initializer='uniform', activation='relu'))
+    # classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
+    classifier.add(Dense(units=nodes[-1], kernel_initializer='uniform', activation='sigmoid'))
 
     """
     Compile the ANN
@@ -168,6 +170,13 @@ def build_model(nodes=[1], input_dim=13):
     classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return(classifier)
 
+"""Build model"""
+nodes = [20,10,5,1]
+classifier = build_model(nodes)
+
+# =============================================================================
+# Part X - Evaluate Artificial Neural Network
+# =============================================================================
 
 def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
     """
@@ -223,9 +232,6 @@ def plotcm(cm, accuracy):
 # =============================================================================
 # Part 5 - Evaluate the model
 # =============================================================================
-
-"""build model"""
-classifier = build_model()
 
 def kfold(classifier, epochs=100, n_splits=10, verbose=1):
     """Perform k-fold cross evaluation of the model"""
