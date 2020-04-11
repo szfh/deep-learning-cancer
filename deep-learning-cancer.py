@@ -140,12 +140,12 @@ Then scaling down to 1 node in the output (20-8-3-1).
 This gives regular good predictions for this dataset.
 """
 
-"""Import libraries"""
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense
-
 """As a function"""
 def build_model(nodes=[1], input_dim=13):
+    """Import libraries"""
+    from tensorflow.python.keras.models import Sequential
+    from tensorflow.python.keras.layers import Dense
+
     """Initialise the ANN"""
     classifier = Sequential()
 
