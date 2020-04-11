@@ -155,7 +155,7 @@ Too small (<5 in the first/second layer) means relevant variables/weights are no
 
 Strategy:
 Use 3 hidden layers, first with 20 nodes to capture the data complexity (13 inputs).
-Then scaling down to 1 node in the output [20-10-3-1].
+Then scaling down to 1 node in the output.
 This gives regular good predictions for this dataset.
 """
 
