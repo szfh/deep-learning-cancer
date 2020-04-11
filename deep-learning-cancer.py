@@ -172,7 +172,7 @@ This gives regular good predictions for this dataset.
 """
 
 """Build model"""
-nodes = [20,10,3,1]
+nodes = [25,15,8,3,1]
 classifier = build_model(nodes, input_dim=X.shape[1])
 
 # =============================================================================
@@ -180,9 +180,7 @@ classifier = build_model(nodes, input_dim=X.shape[1])
 # =============================================================================
 
 def train_model(classifier, X, y, epochs=100, batch_size=10, verbose=1):
-    """
-
-    """
+    """Train the ANN using training data"""
     classifier.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return(classifier)
 
@@ -248,18 +246,18 @@ Epochs = 500, weights have converged by this many runs.
 Batch size = 10, enough runs for sufficient weight training iterations.
 n_splits = 10, enough evaluations to get reliable mean accuracy.
 """
-cms, accuracies = kfold(classifier, epochs=50, batch_size=10, n_splits=5)
+epochs=500
+batch_size=10
+n_splits=10
+cms, accuracies = kfold(classifier, epochs=epochs, batch_size=batch_size, n_splits=n_splits, verbose=0)
 
-# print(cms)
-print(accuracies)
+print('k-fold cross evaluation splits: %d' %(n_splits))
 print('Mean accuracy = %.2f%%' %(np.mean(accuracies)*100))
+print('Best accuracy = %.2f%%' %(np.max(accuracies)*100))
+print('Worst accuracy = %.2f%%' %(np.min(accuracies)*100))
 print('Standard deviation = %.4f' %(np.std(accuracies)))
-
-"""
-Analysis:
-The model usually reaches accuracy of 65%-72% on the test data.
-It is realistic to assume this is close to the limit of the dataset due the inherent uncertainty of cancer recurrence.
-"""
+print('Best confusion matrix:')
+plotconfusionmatrix(cms[np.argmax(accuracies)], np.max(accuracies))
 
 # =============================================================================
 # Part X - Predict unseen data
