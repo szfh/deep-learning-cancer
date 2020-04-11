@@ -263,6 +263,3 @@ Analysis:
 The model usually reaches accuracy of 65%-72% on the test data.
 It is realistic to assume this is close to the limit of the dataset due the inherent uncertainty of cancer recurrence.
 """
-
-if __name__ == "__main__":
-    # program here
