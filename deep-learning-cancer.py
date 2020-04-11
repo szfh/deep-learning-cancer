@@ -205,11 +205,10 @@ def plotconfusionmatrix(cm, accuracy):
 def kfold(classifier, epochs=100, batch_size=10, n_splits=10, verbose=1):
     """Perform k-fold cross evaluation of the model"""
     from sklearn.model_selection import StratifiedKFold
-    kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1)
-    # delete random state
+    kfold = StratifiedKFold(n_splits=n_splits, shuffle=True)
+
     cms = []
     accuracies = []
-
     for train, test in kfold.split(X, y):
         classifier = train_model(classifier, X[train], y[train], epochs=epochs, batch_size=batch_size, verbose=verbose)
         y_pred = predict(X[test],classifier)
