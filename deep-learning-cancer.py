@@ -205,18 +205,18 @@ def predict(X_test, classifier):
     y_pred = (y_pred > 0.5)
     return(y_pred)
 
-def getcm(y_test, y_pred):
+def getconfusionmatrix(y_test, y_pred):
     """Make the confusion matrix"""
     from sklearn.metrics import confusion_matrix
     cm = confusion_matrix(y_test, y_pred)
     return(cm)
 
-def getacc(cm):
+def getaccuracy(cm):
     """Calculate the accuracy"""
     accuracy = (cm[0,0]+cm[1,1])/(cm.sum())
     return(accuracy)
 
-def plotcm(cm, accuracy):
+def plotconfusionmatrix(cm, accuracy):
     """Plot the confusion matrix"""
     import matplotlib.pyplot as plt
     plt.imshow(cm, interpolation='nearest', cmap='Blues')
@@ -244,9 +244,9 @@ def kfold(classifier, epochs=100, n_splits=10, verbose=1):
     for train, test in kfold.split(X, y):
         classifier = train_model(classifier, X[train], y[train], epochs=epochs, verbose=verbose)
         y_pred = predict(X[test],classifier)
-        cm = getcm(y[test], y_pred)
+        cm = getconfusionmatrix(y[test], y_pred)
         cms.append(cm)
-        accuracies.append(getacc(cm))
+        accuracies.append(getaccuracy(cm))
 
     return(cms, accuracies)
 
