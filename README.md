@@ -25,16 +25,18 @@
 	1. Add the output layer :heavy_check_mark:
 	1. Compile the ANN :heavy_check_mark:
 	1. Fit the ANN to the training set :heavy_check_mark:
-1. **Make predictions** :heavy_check_mark:
-	1. Predict the test results :heavy_check_mark:
-	1. Make the confusion matrix :heavy_check_mark:
-	1. Present the confusion matrix :heavy_check_mark:
 1. **Validation** :large_orange_diamond:
 	1. k-fold cross validation :large_orange_diamond:
-1. Improve model :large_orange_diamond:
-1. Comments and notes :large_orange_diamond:
-1. Check and simplify code :large_orange_diamond:
-1. Run on Colab :large_orange_diamond:
+1. **Make predictions** :heavy_check_mark:
+	1. Predict the test results :large_orange_diamond:
+	1. Make the confusion matrix :heavy_check_mark:
+	1. Present the confusion matrix :heavy_check_mark:
+1. **Improve model** :large_orange_diamond:
+1. **Improve code** :large_orange_diamond:
+	1. Tasks as functions :large_orange_diamond:
+1. **Comments and notes** :large_orange_diamond:
+	1. Strategy explained :large_orange_diamond:
+1. **Run on Colab** :large_orange_diamond:
 
 ## Task
 
