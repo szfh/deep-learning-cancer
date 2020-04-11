@@ -113,11 +113,11 @@ For more test data this can be increased to ~0.5 exchanging a minor loss of accu
 Feature scaling.
 Variables have mean = 0 and variance = 1.
 """
-# from sklearn.preprocessing import StandardScaler
-# sc_X = StandardScaler()
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
 # X_train = sc_X.fit_transform(X_train)
 # X_test = sc_X.transform(X_test)
-# X = StandardScaler().fit_transform(X)
+X = StandardScaler().fit_transform(X)
 
 # =============================================================================
 # Part X - Build Artificial Neural Network
@@ -246,7 +246,7 @@ Epochs = 500, weights have converged by this many runs.
 Batch size = 10, enough runs for sufficient weight training iterations.
 n_splits = 10, enough evaluations to get reliable mean accuracy.
 """
-epochs=500
+epochs=100
 batch_size=10
 n_splits=10
 cms, accuracies = kfold(classifier, epochs=epochs, batch_size=batch_size, n_splits=n_splits, verbose=0)
