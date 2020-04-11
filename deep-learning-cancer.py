@@ -123,24 +123,7 @@ Variables have mean = 0 and variance = 1.
 # Part X - Build Artificial Neural Network
 # =============================================================================
 
-"""
-Approach:
-We need to build a model to achieve good accuracy while minimising overfitting.
-There is no "standard" build method, the model must have enough nodes to capture the dataset complexity.
-A trial and error approach from a simple starting point is usually effective.
-
-Tests:
-Initial test of 2 hidden layers both with 7 nodes (mean of input and output = ((13+1)/2))
-Very large numbers (>50) or too many hidden layers (>6) can cause overfitting.
-Too small (<5 in the first/second layer) means relevant variables/weights are not always captured.
-
-Strategy:
-Use 3 hidden layers, first with 20 nodes (above) to capture the data complexity (13 inputs)
-Then scaling down to 1 node in the output (20-8-3-1).
-This gives regular good predictions for this dataset.
-"""
-
-def build_model(nodes=[1], input_dim=13):
+def build_model(nodes=[1], input_dim):
     """Build an Artifical Neural Network"""
 
     """Import libraries"""
@@ -152,6 +135,7 @@ def build_model(nodes=[1], input_dim=13):
 
     """
     Add the layers to the model.
+    input_dim must be specified in the initial layer.
     kernel_initializer = 'uniform', randomly initialise the weights close to 0.
     activation = 'relu' for hidden layers, non-zero output to positive input.
     activation = 'sigmoid' for output layer to get probability.
@@ -159,7 +143,6 @@ def build_model(nodes=[1], input_dim=13):
     classifier.add(Dense(units=nodes[0], kernel_initializer='uniform', activation='relu', input_dim=input_dim))
     for node in nodes[1:-1]:
         classifier.add(Dense(units=node, kernel_initializer='uniform', activation='relu'))
-    # classifier.add(Dense(units=3, kernel_initializer='uniform', activation='relu'))
     classifier.add(Dense(units=nodes[-1], kernel_initializer='uniform', activation='sigmoid'))
 
     """
@@ -170,9 +153,26 @@ def build_model(nodes=[1], input_dim=13):
     classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return(classifier)
 
+"""
+Approach:
+We need to build a model to achieve good accuracy while minimising overfitting.
+There is no "standard" design approach, the model must have enough nodes to capture the dataset complexity.
+A trial and error approach from a simple starting point is usually effective.
+
+Tests:
+Initial test of 2 hidden layers both with 7 nodes (mean of input and output = ((13+1)/2))
+Very large numbers (>100) or too many hidden layers (>6) can cause overfitting.
+Too small (<5 in the first/second layer) means relevant variables/weights are not always captured.
+
+Strategy:
+Use 3 hidden layers, first with 20 nodes (above) to capture the data complexity (13 inputs)
+Then scaling down to 1 node in the output (20-8-3-1).
+This gives regular good predictions for this dataset.
+"""
+
 """Build model"""
 nodes = [20,10,5,1]
-classifier = build_model(nodes)
+classifier = build_model(nodes, input_dim=X.shape[1])
 
 # =============================================================================
 # Part X - Evaluate Artificial Neural Network
